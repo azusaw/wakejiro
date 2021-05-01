@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sample/components/event_card.dart';
 import 'package:flutter_sample/models/event.dart';
 
+import 'create_event_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   // サンプルデータ
   final eventList = <Event>[
@@ -26,6 +28,18 @@ class HomeScreen extends StatelessWidget {
             },
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateEventScreen(),
+              ));
+        },
+        label: const Text('イベントを作成する'),
+        icon: const Icon(Icons.add),
+        backgroundColor: Colors.pink,
       ),
     );
   }
