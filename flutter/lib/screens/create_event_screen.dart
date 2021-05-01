@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/screens/billing_details_screen.dart';
 import "package:intl/intl.dart";
 
 class CreateEventScreen extends StatefulWidget {
@@ -51,17 +52,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                     Step(
                       title: new Text('明細'),
-                      content: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'Home Address'),
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'Postcode'),
-                          ),
-                        ],
-                      ),
+                      content: BillingDetailsScreen(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 1
                           ? StepState.complete
