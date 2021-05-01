@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/screens/CreateEventScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -101,7 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO ページ遷移
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateEventScreen(),
+              )
+          );
         },
         label: const Text('イベントを作成する'),
         icon: const Icon(Icons.add),
