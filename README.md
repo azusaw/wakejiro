@@ -1,4 +1,4 @@
-# flutter_sample
+# flutter_practice
 
 A new Flutter application.
 
