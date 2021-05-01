@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/screens/CreateEventScreen.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 
 void main() {
   runApp(MyApp());
