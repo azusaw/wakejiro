@@ -11,8 +11,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light().copyWith(
+          pageTransitionsTheme: PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      )),
+      darkTheme: ThemeData.dark().copyWith(
+          pageTransitionsTheme: PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      )),
       home: MyHomePage(title: 'イベント一覧'),
     );
   }
@@ -104,9 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CreateEventScreen(),
-              )
-          );
+              MaterialPageRoute(
+                builder: (context) => CreateEventScreen(),
+              ));
         },
         label: const Text('イベントを作成する'),
         icon: const Icon(Icons.add),
