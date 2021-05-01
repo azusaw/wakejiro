@@ -10,19 +10,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.pink,
-      ),
-      home: MyHomePage(title: 'watanabe hatta'),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: MyHomePage(title: 'イベント一覧'),
     );
   }
 }
@@ -46,25 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  bool _switch = false;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-  void _switchChange(bool newValue) {
-    setState(() {
-      _switch = newValue;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -99,24 +70,43 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'ame futteru',
+            Card(
+              child: InkWell(
+                splashColor: Colors.blue.withAlpha(30),
+                onTap: () {
+                  // TODO 過去イベントページに遷移
+                },
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  child: Text('TODO: 日時とイベント名'),
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text('kaerenai'),
-            Switch(value: _switch, onChanged: (newValue) => _switchChange(newValue)),
-            Text(_switch.toString())
+            Card(
+              child: InkWell(
+                splashColor: Colors.blue.withAlpha(30),
+                onTap: () {
+                  // TODO 過去イベントページに遷移
+                },
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  child: Text('TODO: 日時とイベント名'),
+                ),
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // TODO ページ遷移
+        },
+        label: const Text('イベントを作成する'),
+        icon: const Icon(Icons.add),
+        backgroundColor: Colors.pink,
+      ),
     );
   }
 }
