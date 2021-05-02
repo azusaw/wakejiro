@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/components/steps/billing_details_step.dart';
-import "package:intl/intl.dart";
+import 'package:flutter_sample/components/steps/event_info_step.dart';
 
 class CreateEventScreen extends StatefulWidget {
   @override
@@ -10,7 +10,6 @@ class CreateEventScreen extends StatefulWidget {
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
   int _currentStep = 0;
-  DateTime _date = new DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +29,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   steps: <Step>[
                     Step(
                       title: new Text('イベント情報'),
-                      content: Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Text(dateFormat(_date)),
-                              IconButton(
-                                  onPressed: () => selectDate(context),
-                                  icon: Icon(Icons.calendar_today))
-                            ],
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'イベント名'),
-                          ),
-                        ],
-                      ),
+                      content: EventInfoStep(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 0
                           ? StepState.complete
@@ -93,22 +78,5 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   cancel() {
     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
-  }
-
-  Future<Null> selectDate(BuildContext context) async {
-    final picked = await showDatePicker(
-      context: context,
-      locale: const Locale("ja"),
-      initialDate: _date,
-      firstDate: new DateTime(1900),
-      lastDate: new DateTime.now(),
-    );
-    if (picked != null) setState(() => _date = picked);
-  }
-
-  String dateFormat(DateTime dateTime) {
-    var formatter = new DateFormat('yyyy/MM/dd', "ja_JP");
-    var formatted = formatter.format(dateTime); // DateからString
-    return formatted;
   }
 }
