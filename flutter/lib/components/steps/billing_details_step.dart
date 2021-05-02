@@ -67,6 +67,12 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
               child: Icon(Icons.add, color: Colors.blueGrey),
               onPressed: () => showModalBottomSheet(
                 context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(50.0),
+                    topRight: const Radius.circular(50.0)
+                  )
+                ),
                 backgroundColor: Colors.white,
                 isScrollControlled: true,
                 builder: (BuildContext context) {
@@ -128,6 +134,7 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                       return TextField(
                                           decoration: new InputDecoration(
                                             hintText: "支払金額",
+                                            suffixText: "円",
                                             border: InputBorder.none,
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(0),
