@@ -27,7 +27,8 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
     new Member(name: "宮谷"),
   ];
 
-  String _dropdownValue = "八田";
+  BillingDetails _billingDetails =
+      new BillingDetails(paidPersonName: "八田", paidCategory: null, amount: 0);
 
   Widget build(BuildContext context) {
     return Column(
@@ -64,30 +65,41 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            margin: const EdgeInsets.only(left: 20, bottom: 4),
-                            child: DropdownButton<String>(
-                              value: _dropdownValue,
-                              icon: const Icon(Icons.arrow_downward),
-                              iconSize: 24,
-                              elevation: 16,
-                              underline: Container(
-                                height: 1,
-                                color: Colors.blueGrey,
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _dropdownValue = newValue;
-                                });
-                              },
-                              items: memberList
-                                  .map<DropdownMenuItem<String>>((Member item) {
-                                return DropdownMenuItem<String>(
-                                  value: item.name,
-                                  child: Text(item.name),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: FormField<String>(
+                                  builder: (FormFieldState<String> state) {
+                                return InputDecorator(
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0))),
+                                    child: StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                        value: _billingDetails.paidPersonName,
+                                        isDense: true,
+                                        icon: const Icon(Icons.arrow_drop_down),
+                                        iconSize: 24,
+                                        onChanged: (String newValue) {
+                                          setState(() {
+                                            _billingDetails.paidPersonName =
+                                                newValue;
+                                          });
+                                        },
+                                        items: memberList
+                                            .map<DropdownMenuItem<String>>(
+                                                (Member item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item.name,
+                                            child: Text(item.name),
+                                          );
+                                        }).toList(),
+                                      ));
+                                    }));
+                              }))
                         ],
                       ),
                     ),
