@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/components/billing_details_card.dart';
+import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 
-class BillingDetailsScreen extends StatelessWidget {
+class BillingDetailsStep extends StatelessWidget {
   // サンプルデータ
   final billingDetailsList = <BillingDetails>[
     new BillingDetails(

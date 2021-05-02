@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/screens/billing_details_screen.dart';
+import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import "package:intl/intl.dart";
 
 class CreateEventScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                     Step(
                       title: new Text('明細'),
-                      content: BillingDetailsScreen(),
+                      content: BillingDetailsStep(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 1
                           ? StepState.complete
@@ -106,7 +106,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     if (picked != null) setState(() => _date = picked);
   }
 
-  String dateFormat (DateTime dateTime) {
+  String dateFormat(DateTime dateTime) {
     var formatter = new DateFormat('yyyy/MM/dd', "ja_JP");
     var formatted = formatter.format(dateTime); // DateからString
     return formatted;

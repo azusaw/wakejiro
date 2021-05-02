@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/components/event_card.dart';
+import 'package:flutter_sample/components/cards/event_card.dart';
 import 'package:flutter_sample/models/event.dart';
 
 import 'create_event_screen.dart';
