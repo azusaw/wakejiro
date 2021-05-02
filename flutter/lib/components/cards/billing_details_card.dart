@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/models/billing_details.dart';
-import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
@@ -8,19 +8,6 @@ class BillingDetailsCard extends StatelessWidget {
   final BillingDetails billingDetails;
 
   BillingDetailsCard(this.billingDetails);
-
-  String _getCategorySvg() {
-    switch (billingDetails.paidCategory) {
-      case PaidCategory.Food:
-        return "riceBall.svg";
-      case PaidCategory.Car:
-        return "car.svg";
-      case PaidCategory.Ticket:
-        return "ticket.svg";
-      default:
-        return "empty.svg";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +24,7 @@ class BillingDetailsCard extends StatelessWidget {
           children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               SvgPicture.asset(
-                'assets/' + _getCategorySvg(),
+                'assets/' + getPaidCategorySvg(billingDetails.paidCategory),
                 width: 40,
                 height: 40,
               ),
