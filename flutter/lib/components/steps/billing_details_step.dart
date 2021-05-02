@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BillingDetailsStep extends StatefulWidget {
-  @override
-  _BillingDetailsStepState createState() => _BillingDetailsStepState();
-}
+final billingStateProvider = StateProvider((ref) => BillingDetails(paidPersonName: "八田", paidCategory: null, amount: 0));
 
-class _BillingDetailsStepState extends State<BillingDetailsStep> {
+class BillingDetailsStep extends HookWidget {
   // サンプルデータ
-  var _billingDetailsList = <BillingDetails>[
+  final billingDetailsList = <BillingDetails>[
     new BillingDetails(
         paidPersonName: "八田", paidCategory: PaidCategory.Food, amount: 1000),
     new BillingDetails(
@@ -39,19 +38,20 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
     PaidCategory.Ticket
   ];
 
-  BillingDetails _billingDetails =
-      new BillingDetails(paidPersonName: "八田", paidCategory: null, amount: 0);
 
+  @override
   Widget build(BuildContext context) {
+    final billingDetails = useProvider(billingStateProvider);
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ListView.builder(
-            itemCount: _billingDetailsList.length,
+            itemCount: billingDetailsList.length,
             itemBuilder: (context, index) {
               return Container(
                   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: BillingDetailsCard(_billingDetailsList[index]));
+                  child: BillingDetailsCard(billingDetailsList[index]));
             },
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -93,20 +93,20 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                         border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(5.0))),
-                                    child: StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return DropdownButtonHideUnderline(
+                                    child:
+                                    // StatefulBuilder(builder:
+                                    //     (BuildContext context,
+                                    //         StateSetter setState) {
+                                    //   return
+                                        DropdownButtonHideUnderline(
                                           child: DropdownButton<String>(
-                                        value: _billingDetails.paidPersonName,
+                                        value: billingDetails.state.paidPersonName,
                                         isDense: true,
                                         icon: const Icon(Icons.arrow_drop_down),
                                         iconSize: 24,
                                         onChanged: (String newValue) {
-                                          setState(() {
-                                            _billingDetails.paidPersonName =
-                                                newValue;
-                                          });
+                                          context.read(billingStateProvider).state.paidPersonName = newValue;
+                                          // billingDetails.state.paidPersonName = newValue;
                                         },
                                         items: _memberList
                                             .map<DropdownMenuItem<String>>(
@@ -114,11 +114,13 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                           return DropdownMenuItem<String>(
                                             value: item.name,
                                             child: Text(item.name),
-                                          );
+                                          );          // ;
+                                                  // })
                                         }).toList(),
-                                      ));
-                                    }));
+                                      ))
+                                  );
                               })),
+                          Text(billingDetails.state.paidPersonName),
                           Container(
                               margin: const EdgeInsets.all(20),
                               child: FormField<String>(
@@ -146,7 +148,7 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                           ],
                                           onChanged: (String newValue) {
                                             setState(() {
-                                              _billingDetails.amount =
+                                              billingDetails.state.amount =
                                                   int.parse(newValue);
                                             });
                                           });
@@ -172,16 +174,16 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                _billingDetails.amount > 0
+                                                billingDetails.state.amount > 0
                                                     ? Colors.cyan[100]
                                                     : Colors.blueGrey[50]),
                                         overlayColor:
                                             MaterialStateProperty.all<Color>(
-                                                _billingDetails.amount > 0
+                                                billingDetails.state.amount > 0
                                                     ? Colors.cyan[400]
                                                     : Colors.blueGrey[50]),
                                         elevation: MaterialStateProperty.all<double>(
-                                            _billingDetails.amount > 0 ? 6 : 0),
+                                            billingDetails.state.amount > 0 ? 6 : 0),
                                         shape: MaterialStateProperty.all<
                                             OutlinedBorder>(CircleBorder())),
                                     child: ClipOval(
@@ -194,10 +196,10 @@ class _BillingDetailsStepState extends State<BillingDetailsStep> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      _billingDetails.amount <= 0
+                                      billingDetails.state.amount <= 0
                                           ? null
                                           : setState(() {
-                                              _billingDetails.paidCategory =
+                                              billingDetails.state.paidCategory =
                                                   _paidCategoryList[index];
                                             });
                                     },
