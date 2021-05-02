@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/billing_details.dart';
+import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 
-class BillingDetailsStep extends StatelessWidget {
+class BillingDetailsStep extends StatefulWidget {
+  @override
+  _BillingDetailsStepState createState() => _BillingDetailsStepState();
+}
+
+class _BillingDetailsStepState extends State<BillingDetailsStep> {
   // サンプルデータ
   final billingDetailsList = <BillingDetails>[
     new BillingDetails(
@@ -14,7 +20,15 @@ class BillingDetailsStep extends StatelessWidget {
         paidPersonName: "渡邉", paidCategory: PaidCategory.Ticket, amount: 1500)
   ];
 
-  @override
+  final memberList = <Member>[
+    new Member(name: "八田"),
+    new Member(name: "渡邉"),
+    new Member(name: "半田"),
+    new Member(name: "宮谷"),
+  ];
+
+  String _dropdownValue = "八田";
+
   Widget build(BuildContext context) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,17 +43,58 @@ class BillingDetailsStep extends StatelessWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.blueGrey[400]),
-                minimumSize: MaterialStateProperty.all(Size(300, 50))),
-            child: Text(
-              '明細を追加する',
-              style: TextStyle(fontSize: 18.0, letterSpacing: 3),
+          SizedBox(height: 30),
+          Container(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(8),
+                backgroundColor: MaterialStateProperty.all(Colors.blueGrey[50]),
+                minimumSize: MaterialStateProperty.all(Size(250, 60)),
+              ),
+              child: Icon(Icons.add, color: Colors.blueGrey),
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 400,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(left: 20, bottom: 4),
+                            child: DropdownButton<String>(
+                              value: _dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              elevation: 16,
+                              underline: Container(
+                                height: 1,
+                                color: Colors.blueGrey,
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  _dropdownValue = newValue;
+                                });
+                              },
+                              items: memberList
+                                  .map<DropdownMenuItem<String>>((Member item) {
+                                return DropdownMenuItem<String>(
+                                  value: item.name,
+                                  child: Text(item.name),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-            onPressed: () {},
           ),
           SizedBox(height: 60),
           ElevatedButton(
