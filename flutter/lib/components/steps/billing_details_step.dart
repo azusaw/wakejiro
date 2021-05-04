@@ -182,8 +182,8 @@ class BillingDetailsStep extends HookWidget {
             itemBuilder: (context, index) {
               return Container(
                   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child:
-                      BillingDetailsCard(tmpListPv.billingDetailsList[index]));
+                  child: BillingDetailsCard(
+                      tmpListPv.billingDetailsList[index], index));
             },
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

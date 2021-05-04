@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/models/billing_details.dart';
+import 'package:flutter_sample/view_models/billing_details_view_model.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class BillingDetailsCard extends StatelessWidget {
+class BillingDetailsCard extends HookWidget {
   final BillingDetails billingDetails;
+  final int index;
 
-  BillingDetailsCard(this.billingDetails);
+  BillingDetailsCard(this.billingDetails, this.index);
 
   @override
   Widget build(BuildContext context) {
+    final tmpListPv = useProvider(billingDetailsListProvider);
+
     return Card(
       elevation: 8,
       color: Colors.blueGrey[50],
@@ -57,7 +63,9 @@ class BillingDetailsCard extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   color: Colors.blueGrey,
-                  onPressed: () {},
+                  onPressed: () {
+                    tmpListPv.delete(index);
+                  },
                 ),
               ],
             ),

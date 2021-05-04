@@ -35,4 +35,9 @@ class BillingDetailsListViewModel with ChangeNotifier {
     billingDetailsList.add(billingDetails.copyWith());
     notifyListeners();
   }
+
+  void delete(int index) {
+    billingDetailsList.removeAt(index);
+    notifyListeners();
+  }
 }
