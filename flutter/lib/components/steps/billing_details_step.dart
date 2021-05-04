@@ -49,9 +49,11 @@ class BillingDetailsStep extends HookWidget {
     }
 
     useEffect(() {
-      setDefaultValue();
-      _billingDetailsList.forEach((element) {
-        tmpListPv.add(element);
+      Future.microtask(() {
+        setDefaultValue();
+        _billingDetailsList.forEach((element) {
+          tmpListPv.add(element);
+        });
       });
       return;
     }, const []);
