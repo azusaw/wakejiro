@@ -59,6 +59,28 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           : StepState.disabled,
                     ),
                   ],
+                  controlsBuilder: (BuildContext context,
+                      {VoidCallback onStepContinue,
+                      VoidCallback onStepCancel}) {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              ElevatedButton(
+                                onPressed: onStepCancel,
+                                child: const Text('前へ'),
+                              ),
+                              ElevatedButton(
+                                onPressed: onStepContinue,
+                                child: const Text('次へ'),
+                              ),
+                            ],
+                          )
+                        ]);
+                  },
                 ),
               ),
             ],
