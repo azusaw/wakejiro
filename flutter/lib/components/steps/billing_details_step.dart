@@ -90,7 +90,6 @@ class BillingDetailsStep extends HookWidget {
                           }).toList(),
                         )));
                   })),
-              Text(tmpPv.billingDetails.paidPersonName),
               Container(
                   margin: const EdgeInsets.all(20),
                   child: FormField<String>(
@@ -99,25 +98,22 @@ class BillingDetailsStep extends HookWidget {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
-                        child: StatefulBuilder(builder:
-                            (BuildContext context, StateSetter setState) {
-                          return TextField(
-                              decoration: new InputDecoration(
-                                hintText: "支払金額",
-                                suffixText: "円",
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(0),
-                              ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]')),
-                              ],
-                              onChanged: (String amount) {
-                                tmpPv.setAmount(int.parse(amount));
-                              });
-                        }));
+                        child: TextField(
+                            decoration: new InputDecoration(
+                              hintText: "支払金額",
+                              suffixText: "円",
+                              border: InputBorder.none,
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(0),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            onChanged: (String amount) {
+                              tmpPv.setAmount(int.parse(amount));
+                            }));
                   })),
               Container(
                 margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
@@ -131,41 +127,38 @@ class BillingDetailsStep extends HookWidget {
                     shrinkWrap: true,
                     itemCount: _paidCategoryList.length,
                     itemBuilder: (context, index) {
-                      return StatefulBuilder(builder:
-                          (BuildContext context, StateSetter setState) {
-                        return ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  tmpPv.billingDetails.amount > 0
-                                      ? Colors.cyan[100]
-                                      : Colors.blueGrey[50]),
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                  tmpPv.billingDetails.amount > 0
-                                      ? Colors.cyan[400]
-                                      : Colors.blueGrey[50]),
-                              elevation: MaterialStateProperty.all<double>(
-                                  tmpPv.billingDetails.amount > 0 ? 6 : 0),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  CircleBorder())),
-                          child: ClipOval(
-                            child: SvgPicture.asset(
-                              'assets/' +
-                                  getPaidCategorySvg(_paidCategoryList[index]),
-                              width: 60,
-                              height: 60,
-                            ),
+                      return ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                tmpPv.billingDetails.amount > 0
+                                    ? Colors.cyan[100]
+                                    : Colors.blueGrey[50]),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                                tmpPv.billingDetails.amount > 0
+                                    ? Colors.cyan[400]
+                                    : Colors.blueGrey[50]),
+                            elevation: MaterialStateProperty.all<double>(
+                                tmpPv.billingDetails.amount > 0 ? 6 : 0),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                CircleBorder())),
+                        child: ClipOval(
+                          child: SvgPicture.asset(
+                            'assets/' +
+                                getPaidCategorySvg(_paidCategoryList[index]),
+                            width: 60,
+                            height: 60,
                           ),
-                          onPressed: () {
-                            if (tmpPv.billingDetails.amount > 0 &&
-                                tmpPv.billingDetails.paidPersonName != "") {
-                              tmpPv.setPaidCategory(_paidCategoryList[index]);
-                              tmpListPv.add(tmpPv.billingDetails);
-                              setDefaultValue();
-                              Navigator.of(context).pop();
-                            }
-                          },
-                        );
-                      });
+                        ),
+                        onPressed: () {
+                          if (tmpPv.billingDetails.amount > 0 &&
+                              tmpPv.billingDetails.paidPersonName != "") {
+                            tmpPv.setPaidCategory(_paidCategoryList[index]);
+                            tmpListPv.add(tmpPv.billingDetails);
+                            setDefaultValue();
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      );
                     }),
               ),
             ],
