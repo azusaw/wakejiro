@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/models/member.dart';
-import 'package:flutter_sample/view_models/member_view_modal.dart';
+import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /* Provider Sample*/
@@ -63,7 +63,6 @@ class CounterScreen extends HookWidget {
         child: Text("＋"),
         onPressed: () {
           tmpListPv.add(tmpPv.member);
-          print(tmpListPv.memberList);
         },
       ),
     );
