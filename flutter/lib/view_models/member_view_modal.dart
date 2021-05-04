@@ -9,3 +9,12 @@ class MemberViewModel with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class MemberListViewModel with ChangeNotifier {
+  List<Member> memberList = [];
+
+  void add(Member member) {
+    memberList.add(member.copyWith());
+    notifyListeners();
+  }
+}

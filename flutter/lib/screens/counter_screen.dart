@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /* Provider Sample*/
 final memberProvider = ChangeNotifierProvider((ref) => MemberViewModel());
+final memberListProvider =
+    ChangeNotifierProvider((ref) => MemberListViewModel());
 
 final _memberList = <Member>[
   Member(name: "選択してください"),
@@ -18,21 +20,24 @@ final _memberList = <Member>[
 class CounterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final tmp = useProvider(memberProvider);
+    final tmpPv = useProvider(memberProvider);
+    final tmpListPv = useProvider(memberListProvider);
+
     return Scaffold(
       body: Center(
           child: Container(
         margin: EdgeInsets.all(20),
         child: Column(children: <Widget>[
-          Text('選択中： ${tmp.member.name}'),
+          Text('選択中： ${tmpPv.member.name}'),
+          SizedBox(height: 10),
           FormField<String>(builder: (FormFieldState<String> state) {
             return DropdownButton<String>(
-              value: tmp.member.name,
+              value: tmpPv.member.name,
               isDense: true,
               icon: const Icon(Icons.arrow_drop_down),
               iconSize: 24,
               onChanged: (String value) {
-                tmp.setName(value);
+                tmpPv.setName(value);
               },
               items: _memberList.map<DropdownMenuItem<String>>((Member item) {
                 return DropdownMenuItem<String>(
@@ -42,12 +47,23 @@ class CounterScreen extends HookWidget {
               }).toList(),
             );
           }),
+          SizedBox(height: 20),
+          Text('メンバーリスト'),
+          ListView.builder(
+            itemCount: tmpListPv.memberList.length,
+            itemBuilder: (context, index) {
+              return Text(tmpListPv.memberList[index].name);
+            },
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+          ),
         ]),
       )),
       floatingActionButton: FloatingActionButton(
-        child: Text("わ"),
+        child: Text("＋"),
         onPressed: () {
-          tmp.setName("渡邉");
+          tmpListPv.add(tmpPv.member);
+          print(tmpListPv.memberList);
         },
       ),
     );

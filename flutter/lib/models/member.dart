@@ -6,4 +6,11 @@ class Member {
   });
 
   String name;
+
+  Member copyWith({
+    String name,
+  }) =>
+      Member(
+        name: name ?? this.name,
+      );
 }
