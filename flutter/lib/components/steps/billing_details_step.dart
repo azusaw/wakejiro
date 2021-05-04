@@ -212,17 +212,6 @@ class BillingDetailsStep extends HookWidget {
                       });
                 }),
           ),
-          SizedBox(height: 60),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan),
-                minimumSize: MaterialStateProperty.all(Size(300, 60))),
-            child: Text(
-              '次へ',
-              style: TextStyle(fontSize: 18.0, letterSpacing: 3),
-            ),
-            onPressed: () {},
-          ),
         ]);
   }
 }
