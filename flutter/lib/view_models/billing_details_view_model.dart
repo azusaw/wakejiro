@@ -40,4 +40,9 @@ class BillingDetailsListViewModel with ChangeNotifier {
     billingDetailsList.removeAt(index);
     notifyListeners();
   }
+
+  void deleteAll() {
+    billingDetailsList = [];
+    notifyListeners();
+  }
 }

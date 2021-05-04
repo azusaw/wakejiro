@@ -48,17 +48,22 @@ class BillingDetailsStep extends HookWidget {
       tmpPv.setPaidCategory(null);
     }
 
+    void setListDefaultValue() {
+      tmpListPv.deleteAll();
+      _billingDetailsList.forEach((element) {
+        tmpListPv.add(element);
+      });
+    }
+
     useEffect(() {
       Future.microtask(() {
         setDefaultValue();
-        _billingDetailsList.forEach((element) {
-          tmpListPv.add(element);
-        });
+        setListDefaultValue();
       });
       return;
     }, const []);
 
-    Widget _billingDetailInputModalContent() {
+    Widget _modalContent() {
       return Container(
         height: 530,
         child: Padding(
@@ -71,16 +76,18 @@ class BillingDetailsStep extends HookWidget {
                   child: FormField<String>(
                       builder: (FormFieldState<String> state) {
                     return InputDecorator(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0))),
-                        child: DropdownButtonHideUnderline(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                      child: StatefulBuilder(builder: (context, setState) {
+                        return DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                           value: '${tmpPv.billingDetails.paidPersonName}',
                           isDense: true,
                           icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
                           onChanged: (String value) {
+                            setState(() {});
                             tmpPv.setPaidPersonName(value);
                           },
                           items: _memberList
@@ -90,7 +97,9 @@ class BillingDetailsStep extends HookWidget {
                               child: Text(item.name),
                             );
                           }).toList(),
-                        )));
+                        ));
+                      }),
+                    );
                   })),
               Container(
                   margin: const EdgeInsets.all(20),
@@ -139,8 +148,7 @@ class BillingDetailsStep extends HookWidget {
                                 tmpPv.billingDetails.amount > 0
                                     ? Colors.cyan[400]
                                     : Colors.blueGrey[50]),
-                            elevation: MaterialStateProperty.all<double>(
-                                tmpPv.billingDetails.amount > 0 ? 6 : 0),
+                            elevation: MaterialStateProperty.all(0),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                                 CircleBorder())),
                         child: ClipOval(
@@ -202,9 +210,7 @@ class BillingDetailsStep extends HookWidget {
                               topRight: const Radius.circular(50.0))),
                       backgroundColor: Colors.white,
                       isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        return _billingDetailInputModalContent();
-                      });
+                      builder: (BuildContext context) => _modalContent());
                 }),
           ),
         ]);
