@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Member {
-  const Member({
+  Member({
     @required this.name,
   });
 
-  final String name;
+  String name;
 }
