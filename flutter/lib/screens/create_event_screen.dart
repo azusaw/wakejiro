@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import 'package:flutter_sample/components/steps/event_info_step.dart';
+import 'package:flutter_sample/components/steps/pay_off_step.dart';
 
 class CreateEventScreen extends StatefulWidget {
   @override
@@ -45,14 +46,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                     Step(
                       title: Text('清算'),
-                      content: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'Mobile Number'),
-                          ),
-                        ],
-                      ),
+                      content: PayOffStep(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 2
                           ? StepState.complete

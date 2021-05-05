@@ -42,4 +42,7 @@ class BillingDetailsListViewModel with ChangeNotifier {
     billingDetailsList = [];
     notifyListeners();
   }
+
+  int calcTotal() => billingDetailsList.fold<int>(
+      0, (total, element) => total + element.amount);
 }
