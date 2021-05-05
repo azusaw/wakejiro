@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/models/payment.dart';
-import 'package:flutter_sample/view_models/billing_details_view_model.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:intl/intl.dart';
 
 class PaymentCard extends HookWidget {
@@ -14,7 +13,7 @@ class PaymentCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tmpListPv = useProvider(billingDetailsListProvider);
+    final tmpListPv = useProvider(paymentListProvider);
 
     return Card(
       elevation: payment.isDone ? 0 : 8,
@@ -58,7 +57,8 @@ class PaymentCard extends HookWidget {
                       : Icon(Icons.check_circle_rounded, size: 35.0),
                   color: payment.isDone ? Colors.green : Colors.lightBlueAccent,
                   onPressed: () {
-                    payment.isDone = !payment.isDone;
+                    tmpListPv.setIsDone(
+                        index, !tmpListPv.paymentList[index].isDone);
                   },
                 ),
               ],

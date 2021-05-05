@@ -9,6 +9,7 @@ import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_sample/models/payment.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
+import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,7 @@ class PayOffStep extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final tmpListPv = useProvider(billingDetailsListProvider);
+    final tmpListPv2 = useProvider(paymentListProvider);
 
     // サンプルデータ
     final _paymentList = <Payment>[
@@ -26,6 +28,20 @@ class PayOffStep extends HookWidget {
           amount: 1000,
           isDone: false),
     ];
+
+    void setListDefaultValue() {
+      tmpListPv2.deleteAll();
+      _paymentList.forEach((element) {
+        tmpListPv2.add(element);
+      });
+    }
+
+    useEffect(() {
+      Future.microtask(() {
+        setListDefaultValue();
+      });
+      return;
+    }, const []);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

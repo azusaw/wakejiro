@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             },
           )),
-      home: CounterScreen(),
+      home: HomeScreen(),
     );
   }
 }
