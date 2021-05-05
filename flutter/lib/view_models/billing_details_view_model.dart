@@ -14,17 +14,14 @@ class BillingDetailsViewModel with ChangeNotifier {
 
   void setPaidPersonName(String name) {
     billingDetails.paidPersonName = name;
-    notifyListeners();
   }
 
   void setPaidCategory(PaidCategory paidCategory) {
     billingDetails.paidCategory = paidCategory;
-    notifyListeners();
   }
 
   void setAmount(int amount) {
     billingDetails.amount = amount;
-    notifyListeners();
   }
 }
 

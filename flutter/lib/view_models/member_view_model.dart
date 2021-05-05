@@ -6,7 +6,6 @@ class MemberViewModel with ChangeNotifier {
 
   void setName(String name) {
     member.name = name;
-    notifyListeners();
   }
 }
 
