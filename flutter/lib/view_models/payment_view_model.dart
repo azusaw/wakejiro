@@ -33,8 +33,8 @@ class PaymentListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsDone(int index, bool isDone) {
-    paymentList[index].isDone = isDone;
+  void inverseDone(int index) {
+    paymentList[index].isDone = (!paymentList[index].isDone);
     notifyListeners();
   }
 }

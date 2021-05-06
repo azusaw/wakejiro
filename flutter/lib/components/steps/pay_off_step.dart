@@ -21,6 +21,11 @@ class PayOffStep extends HookWidget {
           fromMember: Member(name: "渡邉"),
           amount: 1000,
           isDone: false),
+      Payment(
+          toMember: Member(name: "八田"),
+          fromMember: Member(name: "半田"),
+          amount: 1500,
+          isDone: false),
     ];
 
     void setListDefaultValue() {
@@ -53,11 +58,11 @@ class PayOffStep extends HookWidget {
                     "円"),
           ),
           ListView.builder(
-            itemCount: _paymentList.length,
+            itemCount: paymentListPv.paymentList.length,
             itemBuilder: (context, index) {
               return Container(
                   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: PaymentCard(_paymentList[index], index));
+                  child: PaymentCard(index));
             },
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
