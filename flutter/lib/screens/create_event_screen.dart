@@ -12,6 +12,12 @@ class CreateEventScreen extends StatefulWidget {
 class _CreateEventScreenState extends State<CreateEventScreen> {
   int _currentStep = 0;
 
+  tapped(int step) => setState(() => _currentStep = step);
+
+  continued() => _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+
+  cancel() => _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,17 +88,5 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         ),
       ),
     );
-  }
-
-  tapped(int step) {
-    setState(() => _currentStep = step);
-  }
-
-  continued() {
-    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
-  }
-
-  cancel() {
-    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 }
