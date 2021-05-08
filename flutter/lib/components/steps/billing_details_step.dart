@@ -12,15 +12,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BillingDetailsStep extends HookWidget {
   // サンプルデータ
-  final _billingDetailsList = <BillingDetails>[
-    new BillingDetails(
-        paidPersonName: "八田", paidCategory: PaidCategory.Food, amount: 1000),
-    new BillingDetails(
-        paidPersonName: "渡邉", paidCategory: PaidCategory.Car, amount: 6000),
-    new BillingDetails(
-        paidPersonName: "渡邉", paidCategory: PaidCategory.Ticket, amount: 1500)
-  ];
-
   final _memberList = <Member>[
     Member(name: "八田"),
     Member(name: "渡邉"),
@@ -48,17 +39,9 @@ class BillingDetailsStep extends HookWidget {
       tmpPv.setPaidCategory(null);
     }
 
-    void setListDefaultValue() {
-      tmpListPv.deleteAll();
-      _billingDetailsList.forEach((element) {
-        tmpListPv.add(element);
-      });
-    }
-
     useEffect(() {
       Future.microtask(() {
         setDefaultValue();
-        setListDefaultValue();
       });
       return;
     }, const []);

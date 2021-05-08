@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_sample/screens/counter_screen.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
