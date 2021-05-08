@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import 'package:flutter_sample/components/steps/event_info_step.dart';
 import 'package:flutter_sample/components/steps/pay_off_step.dart';
+import 'home_screen.dart';
 
 class CreateEventScreen extends StatefulWidget {
   @override
@@ -17,6 +17,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   continued() => _currentStep < 2 ? setState(() => _currentStep += 1) : null;
 
   cancel() => _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
+
+  finish() => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(),
+      ));
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   onStepCancel: cancel,
                   steps: <Step>[
                     Step(
-                      title: new Text('イベント情報'),
+                      title: Text('イベント'),
                       content: EventInfoStep(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 0
@@ -43,7 +49,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           : StepState.disabled,
                     ),
                     Step(
-                      title: new Text('明細'),
+                      title: Text('明細'),
                       content: BillingDetailsStep(),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 1
@@ -62,24 +68,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   controlsBuilder: (BuildContext context,
                       {VoidCallback onStepContinue,
                       VoidCallback onStepCancel}) {
-                    return Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              ElevatedButton(
-                                onPressed: onStepCancel,
-                                child: const Text('前へ'),
-                              ),
-                              ElevatedButton(
-                                onPressed: onStepContinue,
-                                child: const Text('次へ'),
-                              ),
-                            ],
-                          )
-                        ]);
+                    return Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: onStepCancel,
+                              child: const Text('前へ'),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.cyan),
+                            ),
+                            ElevatedButton(
+                              onPressed:
+                                  _currentStep < 2 ? onStepContinue : finish,
+                              child: const Text('次へ'),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.cyan),
+                            ),
+                          ],
+                        ));
                   },
                 ),
               ),
