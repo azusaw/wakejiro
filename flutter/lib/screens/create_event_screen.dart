@@ -25,6 +25,16 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         builder: (context) => HomeScreen(),
       ));
 
+  displayState(int index) {
+    if (_currentStep < index) {
+      return StepState.disabled;
+    } else if (_currentStep == index) {
+      return StepState.indexed;
+    } else {
+      return StepState.complete;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,26 +55,20 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     Step(
                       title: Text('イベント'),
                       content: EventInfoStep(),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 0
-                          ? StepState.complete
-                          : StepState.disabled,
+                      isActive: true,
+                      state: displayState(0),
                     ),
                     Step(
                       title: Text('明細'),
                       content: BillingDetailsStep(),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 1
-                          ? StepState.complete
-                          : StepState.disabled,
+                      isActive: true,
+                      state: displayState(1),
                     ),
                     Step(
                       title: Text('清算'),
                       content: PayOffStep(),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 2
-                          ? StepState.complete
-                          : StepState.disabled,
+                      isActive: true,
+                      state: displayState(2),
                     ),
                   ],
                   controlsBuilder: (BuildContext context,
