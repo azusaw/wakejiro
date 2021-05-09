@@ -18,7 +18,8 @@ class HomeScreen extends HookWidget {
     return Scaffold(
       backgroundColor: ThemeColor.base,
       appBar: AppBar(
-        backgroundColor: Colors.white.withOpacity(0),
+        backgroundColor: ThemeColor.primary,
+        automaticallyImplyLeading: false,
         elevation: 0,
       ),
       body: Center(

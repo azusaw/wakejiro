@@ -70,7 +70,7 @@ class PaymentCard extends HookWidget {
                           shape: CircleBorder(),
                         )
                       : ShapeDecoration(
-                          color: Colors.grey,
+                          color: Colors.grey[300],
                           shape: CircleBorder(),
                         ),
                   child: IconButton(
