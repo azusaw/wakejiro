@@ -94,7 +94,7 @@ class BillingDetailsStep extends HookWidget {
                                 borderRadius: BorderRadius.circular(5.0))),
                         child: TextField(
                             decoration: new InputDecoration(
-                              hintText: "支払金額",
+                              hintText: "支払金額を入力してください",
                               suffixText: "円",
                               border: InputBorder.none,
                               isDense: true,
