@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import 'package:flutter_sample/components/steps/event_info_step.dart';
 import 'package:flutter_sample/components/steps/pay_off_step.dart';
@@ -27,6 +28,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColor.base,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -79,14 +81,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                   _currentStep > 0 ? onStepCancel : finish,
                               child: const Text('前へ'),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.cyan),
+                                  primary: ThemeColor.primary),
                             ),
                             ElevatedButton(
                               onPressed:
                                   _currentStep < 2 ? onStepContinue : finish,
                               child: const Text('次へ'),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.cyan),
+                                  primary: ThemeColor.primary),
                             ),
                           ],
                         ));

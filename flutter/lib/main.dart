@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'common/theme_color.dart';
+
 void main() => runApp(
       ProviderScope(
         child: MyApp(),
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [const Locale("ja")],
       theme: ThemeData.light().copyWith(
-          primaryColor: Colors.cyan,
+          primaryColor: ThemeColor.primary,
           pageTransitionsTheme: PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
             },
           )),
       darkTheme: ThemeData.dark().copyWith(
-          primaryColor: Colors.cyan,
+          primaryColor: ThemeColor.primary,
           pageTransitionsTheme: PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),

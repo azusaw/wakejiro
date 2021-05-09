@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +16,6 @@ class PaymentCard extends HookWidget {
 
     return Card(
       elevation: paymentListPv.paymentList[index].isDone ? 1 : 10,
-      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -66,7 +66,7 @@ class PaymentCard extends HookWidget {
                 Ink(
                   decoration: paymentListPv.paymentList[index].isDone
                       ? ShapeDecoration(
-                          color: Colors.lightBlue,
+                          color: ThemeColor.accent,
                           shape: CircleBorder(),
                         )
                       : ShapeDecoration(

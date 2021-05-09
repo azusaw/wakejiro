@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +20,6 @@ class BillingDetailsCard extends HookWidget {
 
     return Card(
       elevation: 8,
-      color: Colors.blueGrey[50],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -51,7 +51,7 @@ class BillingDetailsCard extends HookWidget {
                     margin: const EdgeInsets.only(left: 20),
                     child: Text(
                       NumberFormat('#,##0').format(billingDetails.amount) + "円",
-                      style: TextStyle(fontSize: 14.0, color: Colors.blueGrey),
+                      style: TextStyle(fontSize: 14.0, color: Colors.grey[700]),
                     ),
                   ),
                 ],
@@ -62,7 +62,7 @@ class BillingDetailsCard extends HookWidget {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  color: Colors.blueGrey,
+                  color: Colors.grey,
                   onPressed: () {
                     tmpListPv.delete(index);
                   },

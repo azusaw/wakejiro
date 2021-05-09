@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/event.dart';
 
 class EventCard extends StatelessWidget {
@@ -15,18 +16,26 @@ class EventCard extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(10),
-        child: Column(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ListTile(
+            Expanded(
+                child: ListTile(
               title: Text(event.name),
               subtitle: Text(event.date),
-            ),
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                ElevatedButton(
-                  child: Text(event.isAlreadyPaid ? '清算済み' : '未清算'),
+                Text(
+                  event.isAlreadyPaid ? "清算済み" : "未清算あり",
+                  style: TextStyle(
+                      color: event.isAlreadyPaid
+                          ? ThemeColor.accent
+                          : ThemeColor.error),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit),
                   onPressed: () {},
                 ),
                 const SizedBox(width: 8),

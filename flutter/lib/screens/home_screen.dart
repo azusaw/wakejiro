@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
 import 'package:flutter_sample/models/event.dart';
 
@@ -15,6 +16,7 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColor.base,
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0),
         elevation: 0,
@@ -43,7 +45,7 @@ class HomeScreen extends HookWidget {
         },
         label: const Text('イベントを作成する'),
         icon: const Icon(Icons.add),
-        backgroundColor: Colors.pink,
+        backgroundColor: ThemeColor.accent,
       ),
     );
   }

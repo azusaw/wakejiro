@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/models/member.dart';
@@ -121,37 +122,37 @@ class BillingDetailsStep extends HookWidget {
                     shrinkWrap: true,
                     itemCount: _paidCategoryList.length,
                     itemBuilder: (context, index) {
-                      return ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                tmpPv.billingDetails.amount > 0
-                                    ? Colors.cyan[100]
-                                    : Colors.blueGrey[50]),
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                tmpPv.billingDetails.amount > 0
-                                    ? Colors.cyan[400]
-                                    : Colors.blueGrey[50]),
-                            elevation: MaterialStateProperty.all(0),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                CircleBorder())),
-                        child: ClipOval(
-                          child: SvgPicture.asset(
-                            'assets/' +
-                                getPaidCategorySvg(_paidCategoryList[index]),
-                            width: 80,
-                            height: 80,
+                      if (tmpPv.billingDetails.amount > 0) {
+                        return ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              overlayColor: MaterialStateProperty.all<Color>(
+                                  ThemeColor.accent),
+                              elevation: MaterialStateProperty.all(0),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  CircleBorder())),
+                          child: ClipOval(
+                            child: SvgPicture.asset(
+                              'assets/' +
+                                  getPaidCategorySvg(_paidCategoryList[index]),
+                              width: 80,
+                              height: 80,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          if (tmpPv.billingDetails.amount > 0 &&
-                              tmpPv.billingDetails.paidPersonName != "") {
-                            tmpPv.setPaidCategory(_paidCategoryList[index]);
-                            tmpListPv.add(tmpPv.billingDetails);
-                            setDefaultValue();
-                            Navigator.of(context).pop();
-                          }
-                        },
-                      );
+                          onPressed: () {
+                            if (tmpPv.billingDetails.amount > 0 &&
+                                tmpPv.billingDetails.paidPersonName != "") {
+                              tmpPv.setPaidCategory(_paidCategoryList[index]);
+                              tmpListPv.add(tmpPv.billingDetails);
+                              setDefaultValue();
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        );
+                      } else {
+                        return null;
+                      }
                     }),
               ),
             ],
@@ -179,18 +180,17 @@ class BillingDetailsStep extends HookWidget {
             child: ElevatedButton(
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(8),
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.blueGrey[50]),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                   minimumSize: MaterialStateProperty.all(Size(250, 60)),
                 ),
-                child: Icon(Icons.add, color: Colors.blueGrey),
+                child: Icon(Icons.add, color: Colors.grey),
                 onPressed: () {
                   showModalBottomSheet(
                       context: context,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(50.0),
-                              topRight: const Radius.circular(50.0))),
+                              topLeft: const Radius.circular(30.0),
+                              topRight: const Radius.circular(30.0))),
                       backgroundColor: Colors.white,
                       isScrollControlled: true,
                       builder: (BuildContext context) => _modalContent());
