@@ -22,19 +22,20 @@ final addedMemberListProvider =
 class EventInfoStep extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final eventPv = useProvider(eventProvider);
-    final memberPv = useProvider(memberProvider);
-    final memberListPv = useProvider(memberListProvider);
-    final addedMemberListPv = useProvider(addedMemberListProvider);
+    final _eventPv = useProvider(eventProvider);
+    final _memberPv = useProvider(memberProvider);
+    final _memberListPv = useProvider(memberListProvider);
+    final _addedMemberListPv = useProvider(addedMemberListProvider);
+    final _memberNameController = TextEditingController(text: "");
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: [
-              Text(dateFormat(eventPv.date)),
+              Text(dateFormat(_eventPv.date)),
               IconButton(
-                  onPressed: () => selectDate(context, eventPv),
+                  onPressed: () => selectDate(context, _eventPv),
                   icon: Icon(Icons.calendar_today))
             ],
           ),
@@ -43,37 +44,51 @@ class EventInfoStep extends HookWidget {
           ),
           SizedBox(height: 30),
           Text('参加メンバー', textAlign: TextAlign.start),
-          ListView.builder(
-            itemCount: memberListPv.memberList.length,
-            itemBuilder: (context, index) {
-              return CheckboxListTile(
-                title: Text(memberListPv.memberList[index].member.name),
-                value: memberListPv.memberList[index].checked,
-                onChanged: (newValue) {
-                  memberListPv.changeChecked(newValue, index);
-                },
-                controlAffinity: ListTileControlAffinity.leading,
-              );
-            },
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
+          Column(
+            children: List.generate(
+              _memberListPv.memberList.length,
+              (index) {
+                return CheckboxListTile(
+                  title: Text(_memberListPv.memberList[index].member.name),
+                  value: _memberListPv.memberList[index].checked,
+                  onChanged: (newValue) {
+                    _memberListPv.changeChecked(newValue, index);
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                );
+              },
+            ),
           ),
-          SizedBox(height: 30),
+          Column(
+            children: List.generate(
+              _addedMemberListPv.memberList.length,
+              (index) {
+                return CheckboxListTile(
+                  title: Text(_addedMemberListPv.memberList[index].member.name),
+                  value: true,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (bool value) {},
+                );
+              },
+            ),
+          ),
           Row(
             children: [
               Expanded(
-                  child: TextFormField(
-                initialValue: "",
-                decoration: InputDecoration(labelText: 'メンバー名'),
-                onChanged: (newValue) {
-                  memberPv.setName(newValue);
-                },
-              )),
+                child: TextFormField(
+                  controller: _memberNameController,
+                  decoration: InputDecoration(labelText: 'メンバー名'),
+                  onChanged: (newValue) {
+                    _memberPv.setName(newValue);
+                  },
+                ),
+              ),
               ElevatedButton(
                 onPressed: () {
-                  if (memberPv.name.trim().isNotEmpty) {
-                    addedMemberListPv.add(Member(name: memberPv.name));
-                    print(addedMemberListPv.memberList.length);
+                  if (_memberPv.name.trim().isNotEmpty) {
+                    _addedMemberListPv.add(Member(name: _memberPv.name));
+                    _memberPv.setName("");
+                    _memberNameController.clear();
                   }
                 },
                 child: Icon(Icons.add),
