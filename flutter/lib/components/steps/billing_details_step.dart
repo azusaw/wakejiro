@@ -55,7 +55,18 @@ class BillingDetailsStep extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                  margin: const EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  "明細の入力",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      letterSpacing: 2,
+                      color: Colors.grey[600]),
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.all(20),
                   child: FormField<String>(
                       builder: (FormFieldState<String> state) {
                     return InputDecorator(
@@ -85,7 +96,7 @@ class BillingDetailsStep extends HookWidget {
                     );
                   })),
               Container(
-                  margin: const EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
                   child: FormField<String>(
                       builder: (FormFieldState<String> state) {
                     return InputDecorator(
@@ -110,7 +121,7 @@ class BillingDetailsStep extends HookWidget {
                             }));
                   })),
               Container(
-                margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

@@ -62,7 +62,7 @@ class HomeScreen extends HookWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
-                          letterSpacing: 3),
+                          letterSpacing: 2),
                     ),
                     Icon(Icons.add),
                   ]),
