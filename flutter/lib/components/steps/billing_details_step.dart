@@ -161,41 +161,38 @@ class BillingDetailsStep extends HookWidget {
       );
     }
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          ListView.builder(
-            itemCount: tmpListPv.billingDetailsList.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: BillingDetailsCard(
-                      tmpListPv.billingDetailsList[index], index));
-            },
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-          ),
-          SizedBox(height: 30),
-          Container(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(8),
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  minimumSize: MaterialStateProperty.all(Size(250, 60)),
-                ),
-                child: Icon(Icons.add, color: Colors.grey),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(30.0),
-                              topRight: const Radius.circular(30.0))),
-                      backgroundColor: Colors.white,
-                      isScrollControlled: true,
-                      builder: (BuildContext context) => _modalContent());
-                }),
-          ),
-        ]);
+    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: <
+        Widget>[
+      Column(
+          children: List.generate(tmpListPv.billingDetailsList.length, (index) {
+        return Container(
+            margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            child:
+                BillingDetailsCard(tmpListPv.billingDetailsList[index], index));
+      })),
+      Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        SizedBox(height: 30),
+        Container(
+          child: ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(8),
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                minimumSize: MaterialStateProperty.all(Size(250, 60)),
+              ),
+              child: Icon(Icons.add, color: Colors.grey),
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(30.0),
+                            topRight: const Radius.circular(30.0))),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) => _modalContent());
+              }),
+        ),
+      ]),
+    ]);
   }
 }
