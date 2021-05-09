@@ -25,28 +25,50 @@ class HomeScreen extends HookWidget {
       body: Center(
         child: Container(
           margin: EdgeInsets.all(20),
-          child: ListView.builder(
-            itemCount: eventList.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: EventCard(eventList[index]));
-            },
-          ),
+          child: Column(children: [
+            Column(
+              children: List.generate(eventList.length, (index) {
+                return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: EventCard(eventList[index]));
+              }),
+            ),
+          ]),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreateEventScreen(),
-              ));
-        },
-        label: const Text('イベントを作成する'),
-        icon: const Icon(Icons.add),
-        backgroundColor: ThemeColor.accent,
+      floatingActionButton: Container(
+        margin: EdgeInsets.all(25),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateEventScreen(),
+                ));
+          },
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ThemeColor.accent),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(15),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(children: [
+                    Text(
+                      'イベントを作成する ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          letterSpacing: 3),
+                    ),
+                    Icon(Icons.add),
+                  ]),
+                ]),
+          ),
+        ),
       ),
     );
   }
