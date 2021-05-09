@@ -75,7 +75,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             ElevatedButton(
-                              onPressed: onStepCancel,
+                              onPressed:
+                                  _currentStep > 0 ? onStepCancel : finish,
                               child: const Text('前へ'),
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.cyan),
