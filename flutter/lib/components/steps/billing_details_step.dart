@@ -22,10 +22,10 @@ class BillingDetailsStep extends HookWidget {
   final _paidCategoryList = <PaidCategory>[
     PaidCategory.Food,
     PaidCategory.Car,
+    PaidCategory.Shopping,
     PaidCategory.Ticket,
-    PaidCategory.Food,
-    PaidCategory.Car,
-    PaidCategory.Ticket
+    PaidCategory.Housing,
+    PaidCategory.Other
   ];
 
   @override
@@ -138,8 +138,8 @@ class BillingDetailsStep extends HookWidget {
                           child: SvgPicture.asset(
                             'assets/' +
                                 getPaidCategorySvg(_paidCategoryList[index]),
-                            width: 60,
-                            height: 60,
+                            width: 80,
+                            height: 80,
                           ),
                         ),
                         onPressed: () {

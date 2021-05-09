@@ -1,1 +1,1 @@
-enum PaidCategory { Food, Car, Ticket }
+enum PaidCategory { Food, Shopping, Car, Housing, Ticket, Other }
