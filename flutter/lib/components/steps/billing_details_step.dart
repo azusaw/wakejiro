@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
-import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
-import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
 import 'package:flutter_svg/svg.dart';
