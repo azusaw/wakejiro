@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="74.553406mm"
-   height="74.976173mm"
-   viewBox="0 0 74.553406 74.976174"
+   width="75mm"
+   height="75mm"
+   viewBox="0 0 75 75.000001"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
@@ -20,10 +20,10 @@
      id="defs2">
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="11.16017 : -87.648442 : 1"
+       inkscape:vp_x="11.160169 : -87.648441 : 1"
        inkscape:vp_y="0 : 51.92433 : 0"
-       inkscape:vp_z="106.36773 : -87.648442 : 1"
-       inkscape:persp3d-origin="58.763952 : -88.283829 : 1"
+       inkscape:vp_z="106.36773 : -87.648441 : 1"
+       inkscape:persp3d-origin="58.763949 : -88.283828 : 1"
        id="perspective837" />
   </defs>
   <sodipodi:namedview
@@ -62,7 +62,7 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(56.301257,-0.10290501)">
+     transform="translate(56.301257,-0.07907841)">
     <g
        id="layer1-2"
        inkscape:label="レイヤー 1"
