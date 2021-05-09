@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
 import 'package:flutter_sample/models/event.dart';
 
 import 'create_event_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends HookWidget {
   // サンプルデータ
   final eventList = <Event>[
     new Event(name: "釣り", date: "2021/4/29", isAlreadyPaid: true),
@@ -24,11 +25,14 @@ class HomeScreen extends StatelessWidget {
           child: ListView.builder(
             itemCount: eventList.length,
             itemBuilder: (context, index) {
-              return EventCard(eventList[index]);
+              return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: EventCard(eventList[index]));
             },
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
