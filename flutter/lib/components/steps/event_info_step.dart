@@ -31,16 +31,40 @@ class EventInfoStep extends HookWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: [
-              Text(dateFormat(_eventPv.date)),
-              IconButton(
-                  onPressed: () => selectDate(context, _eventPv),
-                  icon: Icon(Icons.calendar_today))
-            ],
+          Container(
+            color: Colors.white,
+            margin: EdgeInsets.only(top: 20),
+            child: FormField<String>(builder: (FormFieldState<String> state) {
+              return InputDecorator(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: "イベント名を入力してください",
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(0)),
+                ),
+              );
+            }),
           ),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'イベント名'),
+          SizedBox(height: 40),
+          Text('開催日', textAlign: TextAlign.start),
+          Container(
+            margin: EdgeInsets.only(left: 20),
+            child: Row(
+              children: [
+                Text(
+                  dateFormat(_eventPv.date),
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                IconButton(
+                    color: ThemeColor.accent,
+                    onPressed: () => selectDate(context, _eventPv),
+                    icon: Icon(Icons.calendar_today))
+              ],
+            ),
           ),
           SizedBox(height: 30),
           Text('参加メンバー', textAlign: TextAlign.start),
@@ -74,33 +98,41 @@ class EventInfoStep extends HookWidget {
               },
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _memberNameController,
-                  decoration: InputDecoration(labelText: 'メンバー名'),
-                  onChanged: (newValue) {
-                    _memberPv.setName(newValue);
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_memberPv.name.trim().isNotEmpty) {
-                    _addedMemberListPv.add(Member(name: _memberPv.name));
-                    _memberPv.setName("");
-                    _memberNameController.clear();
-                  }
-                },
-                child: Icon(Icons.add),
-                style: ElevatedButton.styleFrom(
-                  primary: ThemeColor.accent,
-                  shape: const CircleBorder(),
-                ),
-              ),
-            ],
-          )
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+              controller: _memberNameController,
+              decoration: InputDecoration(
+                  labelText: 'メンバー名',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      if (_memberPv.name.trim().isNotEmpty) {
+                        _addedMemberListPv.add(Member(name: _memberPv.name));
+                        _memberPv.setName("");
+                        _memberNameController.clear();
+                      }
+                    },
+                    icon: Icon(Icons.add),
+                  )),
+              onChanged: (newValue) {
+                _memberPv.setName(newValue);
+              },
+            ),
+          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     if (_memberPv.name.trim().isNotEmpty) {
+          //       _addedMemberListPv.add(Member(name: _memberPv.name));
+          //       _memberPv.setName("");
+          //       _memberNameController.clear();
+          //     }
+          //   },
+          //   child: Icon(Icons.add),
+          //   style: ElevatedButton.styleFrom(
+          //     primary: ThemeColor.accent,
+          //     shape: const CircleBorder(),
+          //   ),
+          // ),
         ]);
   }
 
