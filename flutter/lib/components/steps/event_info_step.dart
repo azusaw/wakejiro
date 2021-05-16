@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';
@@ -49,6 +50,7 @@ class EventInfoStep extends HookWidget {
               _memberListPv.memberList.length,
               (index) {
                 return CheckboxListTile(
+                  activeColor: ThemeColor.accent,
                   title: Text(_memberListPv.memberList[index].member.name),
                   value: _memberListPv.memberList[index].checked,
                   onChanged: (newValue) {
@@ -64,6 +66,7 @@ class EventInfoStep extends HookWidget {
               _addedMemberListPv.memberList.length,
               (index) {
                 return CheckboxListTile(
+                  activeColor: ThemeColor.accent,
                   title: Text(_addedMemberListPv.memberList[index].member.name),
                   value: true,
                   controlAffinity: ListTileControlAffinity.leading,
@@ -93,7 +96,7 @@ class EventInfoStep extends HookWidget {
                 },
                 child: Icon(Icons.add),
                 style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.white,
+                  primary: ThemeColor.accent,
                   shape: const CircleBorder(),
                 ),
               ),
