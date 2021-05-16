@@ -57,12 +57,16 @@ class EventInfoStep extends HookWidget {
               children: [
                 Text(
                   dateFormat(_eventPv.date),
-                  style: TextStyle(fontSize: 18.0),
+                  style: TextStyle(fontSize: 20.0, letterSpacing: 1),
+                ),
+                SizedBox(
+                  width: 20,
                 ),
                 IconButton(
-                    color: ThemeColor.accent,
-                    onPressed: () => selectDate(context, _eventPv),
-                    icon: Icon(Icons.calendar_today))
+                  color: Colors.grey,
+                  onPressed: () => selectDate(context, _eventPv),
+                  icon: Icon(Icons.calendar_today),
+                )
               ],
             ),
           ),
@@ -90,7 +94,30 @@ class EventInfoStep extends HookWidget {
               (index) {
                 return CheckboxListTile(
                   activeColor: ThemeColor.accent,
-                  title: Text(_addedMemberListPv.memberList[index].member.name),
+                  title: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _addedMemberListPv.memberList[index].member.name,
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: IconButton(
+                              onPressed: () {
+                                _addedMemberListPv.delete(index);
+                              },
+                              icon: Icon(Icons.delete),
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   value: true,
                   controlAffinity: ListTileControlAffinity.leading,
                   onChanged: (bool value) {},
@@ -119,20 +146,6 @@ class EventInfoStep extends HookWidget {
               },
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     if (_memberPv.name.trim().isNotEmpty) {
-          //       _addedMemberListPv.add(Member(name: _memberPv.name));
-          //       _memberPv.setName("");
-          //       _memberNameController.clear();
-          //     }
-          //   },
-          //   child: Icon(Icons.add),
-          //   style: ElevatedButton.styleFrom(
-          //     primary: ThemeColor.accent,
-          //     shape: const CircleBorder(),
-          //   ),
-          // ),
         ]);
   }
 

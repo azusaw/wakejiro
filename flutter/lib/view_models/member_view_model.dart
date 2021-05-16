@@ -30,6 +30,11 @@ class MemberListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void delete(int index) {
+    memberList.removeAt(index);
+    notifyListeners();
+  }
+
   void changeChecked(bool checked, int index) {
     memberList[index].setChecked(checked);
     notifyListeners();
