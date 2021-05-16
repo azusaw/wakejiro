@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [const Locale("ja")],
       theme: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light().copyWith(
+              primary: ThemeColor.primary, secondary: ThemeColor.accent),
           primaryColor: ThemeColor.primary,
           pageTransitionsTheme: PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
             },
           )),
       darkTheme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.dark().copyWith(
+              primary: ThemeColor.primary, secondary: ThemeColor.accent),
           primaryColor: ThemeColor.primary,
           pageTransitionsTheme: PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
