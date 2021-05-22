@@ -4,12 +4,15 @@ import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'common/theme_color.dart';
+import 'models/app_database.dart';
 
 void main() => runApp(
       ProviderScope(
         child: MyApp(),
       ),
     );
+
+final databaseProvider = Provider((ref) => AppDatabase());
 
 class MyApp extends StatelessWidget {
   @override

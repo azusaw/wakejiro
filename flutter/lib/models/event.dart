@@ -10,4 +10,12 @@ class Event {
   final String date;
   final String name;
   final bool isAlreadyPaid;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': date,
+      'name': name,
+      'isAlreadyPaid': isAlreadyPaid,
+    };
+  }
 }

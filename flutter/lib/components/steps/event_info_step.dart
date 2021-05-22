@@ -77,7 +77,6 @@ class EventInfoStep extends HookWidget {
               _memberListPv.memberList.length,
               (index) {
                 return CheckboxListTile(
-                  activeColor: ThemeColor.accent,
                   title: Text(_memberListPv.memberList[index].member.name),
                   value: _memberListPv.memberList[index].checked,
                   onChanged: (newValue) {
@@ -94,7 +93,6 @@ class EventInfoStep extends HookWidget {
               _addedMemberListPv.memberList.length,
               (index) {
                 return CheckboxListTile(
-                  activeColor: ThemeColor.accent,
                   title: Row(
                     children: [
                       Expanded(
