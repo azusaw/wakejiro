@@ -125,33 +125,27 @@ class EventInfoStep extends HookWidget {
               },
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _memberNameController,
-                  decoration: InputDecoration(labelText: 'メンバー名'),
-                  onChanged: (newValue) {
-                    _memberPv.setName(newValue);
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_memberPv.name.trim().isNotEmpty) {
-                    _addedMemberListPv.add(Member(name: _memberPv.name));
-                    _memberPv.setName("");
-                    _memberNameController.clear();
-                  }
-                },
-                child: Icon(Icons.add),
-                style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.white,
-                  shape: const CircleBorder(),
-                ),
-              ),
-            ],
-          )
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+              controller: _memberNameController,
+              decoration: InputDecoration(
+                  labelText: 'メンバー名',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      if (_memberPv.name.trim().isNotEmpty) {
+                        _addedMemberListPv.add(Member(name: _memberPv.name));
+                        _memberPv.setName("");
+                        _memberNameController.clear();
+                      }
+                    },
+                    icon: Icon(Icons.add),
+                  )),
+              onChanged: (newValue) {
+                _memberPv.setName(newValue);
+              },
+            ),
+          ),
         ]);
   }
 
