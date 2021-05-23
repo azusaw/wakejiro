@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -36,7 +37,13 @@ class EventCard extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateEventScreen(),
+                        ));
+                  },
                 ),
                 const SizedBox(width: 8),
               ],
