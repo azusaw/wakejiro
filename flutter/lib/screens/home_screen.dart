@@ -3,8 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
 import 'package:flutter_sample/models/event.dart';
-
-import 'create_event_screen.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 
 class HomeScreen extends HookWidget {
   // サンプルデータ

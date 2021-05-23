@@ -104,7 +104,7 @@ class BillingDetailsStep extends HookWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                         child: TextField(
-                            decoration: new InputDecoration(
+                            decoration: InputDecoration(
                               hintText: "支払金額を入力してください",
                               suffixText: "円",
                               border: InputBorder.none,
