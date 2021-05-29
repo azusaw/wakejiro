@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/pay_off_card.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/payment.dart';
@@ -9,6 +10,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class PayOffStep extends HookWidget {
+  PayOffStep({this.back, this.next});
+  final Function back;
+  final Function next;
+
   @override
   Widget build(BuildContext context) {
     final billingDetailsListPv = useProvider(billingDetailsListProvider);
@@ -67,6 +72,7 @@ class PayOffStep extends HookWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
+          StepControlButtons(back: back, next: next)
         ]);
   }
 }

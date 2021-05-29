@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/common/theme_color.dart';
+import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import 'package:flutter_sample/components/steps/event_info_step.dart';
 import 'package:flutter_sample/components/steps/pay_off_step.dart';
@@ -49,24 +50,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   physics: ScrollPhysics(),
                   currentStep: _currentStep,
                   onStepTapped: (step) => tapped(step),
-                  onStepContinue: continued,
-                  onStepCancel: cancel,
                   steps: <Step>[
                     Step(
                       title: Text('イベント'),
-                      content: EventInfoStep(test: continued),
+                      content: EventInfoStep(back: finish, next: continued),
                       isActive: true,
                       state: displayState(0),
                     ),
                     Step(
                       title: Text('明細'),
-                      content: BillingDetailsStep(),
+                      content:
+                          BillingDetailsStep(back: cancel, next: continued),
                       isActive: true,
                       state: displayState(1),
                     ),
                     Step(
                       title: Text('清算'),
-                      content: PayOffStep(),
+                      content: PayOffStep(back: cancel, next: finish),
                       isActive: true,
                       state: displayState(2),
                     ),
@@ -74,28 +74,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   controlsBuilder: (BuildContext context,
                       {VoidCallback onStepContinue,
                       VoidCallback onStepCancel}) {
-                    return Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            ElevatedButton(
-                              onPressed:
-                                  _currentStep > 0 ? onStepCancel : finish,
-                              child: const Text('前へ'),
-                              style: ElevatedButton.styleFrom(
-                                  primary: ThemeColor.primary),
-                            ),
-                            ElevatedButton(
-                              onPressed:
-                                  _currentStep < 2 ? onStepContinue : finish,
-                              child: const Text('次へ'),
-                              style: ElevatedButton.styleFrom(
-                                  primary: ThemeColor.primary),
-                            ),
-                          ],
-                        ));
+                    return Container(child: null);
                   },
                 ),
               ),

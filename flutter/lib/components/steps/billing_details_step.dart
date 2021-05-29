@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/common/theme_color.dart';
+import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
@@ -11,6 +12,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BillingDetailsStep extends HookWidget {
+  BillingDetailsStep({this.back, this.next});
+  final Function back;
+  final Function next;
+
   // サンプルデータ
   final _memberList = <Member>[
     Member(name: "八田"),
@@ -202,6 +207,7 @@ class BillingDetailsStep extends HookWidget {
                     builder: (BuildContext context) => _modalContent());
               }),
         ),
+        StepControlButtons(back: back, next: next)
       ]),
     ]);
   }
