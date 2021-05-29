@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
+import 'package:flutter_sample/models/event.dart';
 import 'package:flutter_sample/models/member.dart';
+import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final eventProvider = ChangeNotifierProvider((ref) => EventViewModel());
+final eventProvider = ChangeNotifierProvider(
+    (ref) => EventViewModel(event: Event(name: "", date: DateTime.now(), liquidated: false)));
 final memberProvider = ChangeNotifierProvider((ref) => Member(name: ""));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel(memberList: [
@@ -56,7 +59,7 @@ class EventInfoStep extends HookWidget {
             child: Row(
               children: [
                 Text(
-                  dateFormat(_eventPv.date),
+                  dateFormat(_eventPv.event.date),
                   style: TextStyle(fontSize: 20.0, letterSpacing: 1),
                 ),
                 SizedBox(
@@ -154,7 +157,7 @@ class EventInfoStep extends HookWidget {
       context: context,
       helpText: "",
       locale: const Locale("ja"),
-      initialDate: eventPv.date,
+      initialDate: eventPv.event.date,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget child) {
@@ -167,12 +170,6 @@ class EventInfoStep extends HookWidget {
         );
       },
     );
-    if (picked != null) eventPv.date = picked;
-  }
-
-  String dateFormat(DateTime dateTime) {
-    var formatter = DateFormat('yyyy/MM/dd', "ja_JP");
-    var formatted = formatter.format(dateTime); // DateからString
-    return formatted;
+    if (picked != null) eventPv.event.date = picked;
   }
 }

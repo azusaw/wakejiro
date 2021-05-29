@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Event {
-  const Event({
+  Event({
     @required this.date,
     @required this.name,
-    @required this.isAlreadyPaid,
+    @required this.liquidated,
   });
 
-  final String date;
-  final String name;
-  final bool isAlreadyPaid;
+  DateTime date;
+  String name;
+  bool liquidated;
 
   Map<String, dynamic> toMap() {
     return {
       'date': date,
       'name': name,
-      'isAlreadyPaid': isAlreadyPaid,
+      'isAlreadyPaid': liquidated,
     };
   }
 }

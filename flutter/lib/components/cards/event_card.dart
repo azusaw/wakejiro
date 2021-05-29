@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 
 class EventCard extends StatelessWidget {
@@ -23,15 +24,15 @@ class EventCard extends StatelessWidget {
             Expanded(
                 child: ListTile(
               title: Text(event.name),
-              subtitle: Text(event.date),
+              subtitle: Text(dateFormat(event.date)),
             )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  event.isAlreadyPaid ? "清算済み" : "未清算あり",
+                  event.liquidated ? "清算済み" : "未清算あり",
                   style: TextStyle(
-                      color: event.isAlreadyPaid
+                      color: event.liquidated
                           ? ThemeColor.accent
                           : ThemeColor.error),
                 ),
