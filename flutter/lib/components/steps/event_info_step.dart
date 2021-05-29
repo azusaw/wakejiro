@@ -20,6 +20,8 @@ final addedMemberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel(memberList: []));
 
 class EventInfoStep extends HookWidget {
+  const EventInfoStep({this.test});
+  final Function test;
   @override
   Widget build(BuildContext context) {
     final _eventPv = useProvider(eventProvider);

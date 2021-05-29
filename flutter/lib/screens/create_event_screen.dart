@@ -54,7 +54,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   steps: <Step>[
                     Step(
                       title: Text('イベント'),
-                      content: EventInfoStep(),
+                      content: EventInfoStep(test: continued),
                       isActive: true,
                       state: displayState(0),
                     ),
