@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/models/event.dart';
 
 class EventViewModel with ChangeNotifier {
-  var name = "";
-  var date = DateTime.now();
+  EventViewModel({
+        @required this.event
+  });
+
+  Event event;
 }

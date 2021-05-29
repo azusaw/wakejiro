@@ -17,4 +17,10 @@ class Member extends ChangeNotifier {
       Member(
         name: name ?? this.name,
       );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name
+    };
+  }
 }

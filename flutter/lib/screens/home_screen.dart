@@ -8,8 +8,8 @@ import 'package:flutter_sample/screens/create_event_screen.dart';
 class HomeScreen extends HookWidget {
   // サンプルデータ
   final eventList = <Event>[
-    new Event(name: "釣り", date: "2021/4/29", isAlreadyPaid: true),
-    new Event(name: "麻雀", date: "2021/5/5", isAlreadyPaid: false)
+    new Event(name: "釣り", date: DateTime(2021, 4, 29), liquidated: true),
+    new Event(name: "麻雀", date: DateTime(2021, 5, 5), liquidated: false)
   ];
 
   @override
