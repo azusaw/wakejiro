@@ -5,6 +5,7 @@ import 'package:flutter_sample/components/cards/pay_off_card.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/payment.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
+import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ class PayOffStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _eventPv = useProvider(eventProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
     final _paymentListPv = useProvider(paymentListProvider);
 
@@ -57,7 +59,7 @@ class PayOffStep extends HookWidget {
           ListTile(
             leading: Text("イベント名",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-            title: Text("2021/4/5"),
+            title: Text(dateFormat(_eventPv.event.date)),
           ),
           ListTile(
             leading: Text("合計",
