@@ -5,12 +5,14 @@ import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
-import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
+import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'event_info_step.dart';
 
 final billingDetailsProvider =
     ChangeNotifierProvider((ref) => BillingDetailsViewModel());
@@ -19,14 +21,6 @@ class BillingDetailsStep extends HookWidget {
   BillingDetailsStep({this.back, this.next});
   final Function back;
   final Function next;
-
-  // サンプルデータ
-  final _memberList = <Member>[
-    Member(name: "八田"),
-    Member(name: "渡邉"),
-    Member(name: "半田"),
-    Member(name: "宮谷"),
-  ];
 
   final _paidCategoryList = <PaidCategory>[
     PaidCategory.Food,
@@ -39,11 +33,13 @@ class BillingDetailsStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _memberListPv = useProvider(memberListProvider);
     final _billingDetailsPv = useProvider(billingDetailsProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      _billingDetailsPv.billingDetails.paidPersonName = _memberList[0].name;
+      _billingDetailsPv.billingDetails.paidPersonName =
+          _memberListPv.memberList[0].member.name;
       _billingDetailsPv.billingDetails.amount = 0;
       _billingDetailsPv.billingDetails.paidCategory = null;
     }
@@ -53,7 +49,7 @@ class BillingDetailsStep extends HookWidget {
         setDefaultValue();
       });
       return;
-    }, const []);
+    }, [_memberListPv.memberList]);
 
     Widget _modalContent() {
       return Container(
@@ -95,11 +91,13 @@ class BillingDetailsStep extends HookWidget {
                             _billingDetailsPv.billingDetails.paidPersonName =
                                 value;
                           },
-                          items: _memberList
-                              .map<DropdownMenuItem<String>>((Member item) {
+                          items: _memberListPv.memberList
+                              .where((v) => v.isChecked)
+                              .map<DropdownMenuItem<String>>(
+                                  (MemberViewModel item) {
                             return DropdownMenuItem<String>(
-                              value: item.name,
-                              child: Text(item.name),
+                              value: item.member.name,
+                              child: Text(item.member.name),
                             );
                           }).toList(),
                         ));

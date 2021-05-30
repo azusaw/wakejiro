@@ -9,7 +9,7 @@ class MemberViewModel with ChangeNotifier {
 
   Member member;
   bool isNew;
-  var checked = true;
+  var isChecked = true;
 }
 
 class MemberListViewModel with ChangeNotifier {
@@ -30,7 +30,7 @@ class MemberListViewModel with ChangeNotifier {
   }
 
   void changeChecked(int index, bool checked) {
-    memberList[index].checked = checked;
+    memberList[index].isChecked = checked;
     notifyListeners();
   }
 }

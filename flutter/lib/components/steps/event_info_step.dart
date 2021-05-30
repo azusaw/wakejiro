@@ -108,7 +108,7 @@ class EventInfoStep extends HookWidget {
                         ),
                     ],
                   ),
-                  value: _memberListPv.memberList[index].checked,
+                  value: _memberListPv.memberList[index].isChecked,
                   onChanged: (newValue) {
                     _memberListPv.changeChecked(index, newValue);
                   },
