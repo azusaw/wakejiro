@@ -18,7 +18,7 @@ class AppDatabase {
   Future<Database> _init() async {
     final path = join(await getDatabasesPath(), "database.db");
 
-    // スキーマ変更時などは↓をコメントアウトしてDBをリセットする
+    // スキーマ変更時などは↓をコメントインしてDBをリセットする
     // await deleteDatabase(path);
 
     return await openDatabase(
