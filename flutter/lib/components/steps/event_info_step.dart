@@ -3,8 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/models/app_database.dart';
-import 'package:flutter_sample/models/member.dart';
-import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
@@ -12,7 +10,7 @@ import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final memberProvider =
-    ChangeNotifierProvider((ref) => MemberViewModel(isNew: true));
+    ChangeNotifierProvider((ref) => MemberViewModel(name: "", isNew: true));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel(memberList: [
           MemberViewModel(name: "八田", isNew: false),
@@ -36,7 +34,11 @@ class EventInfoStep extends HookWidget {
       text: _eventPv.name,
       selection: TextSelection.collapsed(offset: _eventPv.name.length),
     ));
-    final _memberNameController = TextEditingController(text: "");
+    final _memberNameController =
+        TextEditingController.fromValue(TextEditingValue(
+      text: _memberPv.name,
+      selection: TextSelection.collapsed(offset: _memberPv.name.length),
+    ));
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,18 +132,23 @@ class EventInfoStep extends HookWidget {
             child: TextFormField(
               controller: _memberNameController,
               decoration: InputDecoration(
-                  labelText: 'メンバー名',
-                  suffixIcon: IconButton(
+                labelText: 'メンバー名',
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: IconButton(
                     onPressed: () {
                       if (_memberPv.name.trim().isNotEmpty) {
-                        FocusScope.of(context).unfocus();
                         _memberListPv.add(_memberPv.name, true);
                         _memberPv.setName("");
                         _memberNameController.clear();
                       }
                     },
                     icon: Icon(Icons.add),
-                  )),
+                  ),
+                ),
+              ),
               onChanged: (newValue) {
                 _memberPv.setName(newValue);
               },
