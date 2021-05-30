@@ -3,8 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'member.dart';
-
 final databaseProvider = Provider<AppDatabase>((ref) => AppDatabase());
 
 class AppDatabase {
@@ -45,8 +43,6 @@ class AppDatabase {
 
   Future<List<Event>> findAllEvents() async {
     final list = await db.query("event");
-    return list.map((m) =>
-       Event(name: m['name'], date: m['date'], liquidated: m['liquidated'])
-    ).toList();
+    return list.map((m) => Event.of(m)).toList();
   }
 }

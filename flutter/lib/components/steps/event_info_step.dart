@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
@@ -28,6 +29,7 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
+    final _databasePv = useProvider(databaseProvider);
     final _memberNameController = TextEditingController(text: "");
 
     return Column(
@@ -137,7 +139,13 @@ class EventInfoStep extends HookWidget {
               },
             ),
           ),
-          StepControlButtons(back: back, next: next)
+          StepControlButtons(
+            back: back,
+            next: () async {
+              await _databasePv.insertEvent(_eventPv.event);
+              next();
+            },
+          ),
         ]);
   }
 
