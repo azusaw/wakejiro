@@ -4,11 +4,8 @@ import 'package:flutter_sample/components/steps/billing_details_step.dart';
 import 'package:flutter_sample/components/steps/event_info_step.dart';
 import 'package:flutter_sample/components/steps/pay_off_step.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
-import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'home_screen.dart';
-
-final eventProvider = ChangeNotifierProvider((ref) => EventViewModel());
 
 final billingDetailsListProvider =
     ChangeNotifierProvider((ref) => BillingDetailsListViewModel());

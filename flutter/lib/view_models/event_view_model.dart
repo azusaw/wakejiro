@@ -6,6 +6,19 @@ import 'package:flutter_sample/models/event.dart';
 class EventViewModel extends Event with ChangeNotifier {
   EventViewModel() : super(name: "", date: DateTime.now(), liquidated: false);
 
+  void setDefaultValue() {
+    this.name = "";
+    this.date = DateTime.now();
+    liquidated = false;
+    notifyListeners();
+  }
+
+  void setEvent(Event event) {
+    this.setName(event.name);
+    this.setDate(event.date);
+    this.setLiquidated(event.liquidated);
+  }
+
   void setName(String name) {
     this.name = name;
     notifyListeners();
@@ -13,6 +26,11 @@ class EventViewModel extends Event with ChangeNotifier {
 
   void setDate(DateTime date) {
     this.date = date;
+    notifyListeners();
+  }
+
+  void setLiquidated(bool liquidated) {
+    this.liquidated = liquidated;
     notifyListeners();
   }
 }

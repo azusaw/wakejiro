@@ -14,6 +14,7 @@ class EventCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _eventPv = useProvider(eventProvider);
     final _eventListPv = useProvider(eventListProvider);
 
     return Card(
@@ -37,6 +38,7 @@ class EventCard extends HookWidget {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
+                    _eventPv.setEvent(event);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
