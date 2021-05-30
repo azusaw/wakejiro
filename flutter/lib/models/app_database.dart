@@ -16,6 +16,10 @@ class AppDatabase {
 
   void init() async {
     final path = join(await getDatabasesPath(), "database.db");
+
+    // スキーマ変更時などは↓をコメントアウトしてDBをリセットする
+    // await deleteDatabase(path);
+
     db = await openDatabase(
       path,
       version: 1,
