@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
-import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final eventListProvider =
-    ChangeNotifierProvider((ref) => EventListViewModel(eventList: [
-          Event(name: "釣り", date: DateTime(2021, 4, 29), liquidated: true),
-          Event(name: "麻雀", date: DateTime(2021, 5, 5), liquidated: false)
-        ]));
+final eventListProvider = ChangeNotifierProvider((ref) => EventListViewModel());
 
 class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final _dbPv = useProvider(databaseProvider);
     final _eventListPv = useProvider(eventListProvider);
+
+    useEffect(() {
+      Future.microtask(() {
+        _dbPv.findAllEvents().then((v) => _eventListPv.eventList = v);
+      });
+      return;
+    }, const []);
 
     return Scaffold(
       backgroundColor: ThemeColor.base,

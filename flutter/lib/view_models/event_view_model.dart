@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/event.dart';
 
 class EventViewModel with ChangeNotifier {
-  EventViewModel({@required this.event});
-
-  Event event;
+  Event event = Event(name: "", date: DateTime.now(), liquidated: false);
 }
 
 class EventListViewModel with ChangeNotifier {
-  EventListViewModel({
-    @required this.eventList,
-  });
-
-  List<Event> eventList;
+  List<Event> eventList = [];
 
   void add(Event event) {
     eventList.add(event);
