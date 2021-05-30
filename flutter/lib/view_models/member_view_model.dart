@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/member.dart';
 
-class MemberViewModel with ChangeNotifier {
+class MemberViewModel extends Member with ChangeNotifier {
   MemberViewModel({
-    @required this.member,
+    @required name,
     @required this.isNew,
-  });
+  }) : super(name: name);
 
-  Member member;
   bool isNew;
   var isChecked = true;
 }
@@ -19,8 +18,8 @@ class MemberListViewModel with ChangeNotifier {
 
   List<MemberViewModel> memberList;
 
-  void add(Member member, bool isNew) {
-    memberList.add(MemberViewModel(member: member, isNew: isNew));
+  void add(String name, bool isNew) {
+    memberList.add(MemberViewModel(name: name, isNew: isNew));
     notifyListeners();
   }
 

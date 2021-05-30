@@ -10,13 +10,14 @@ import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final memberProvider = ChangeNotifierProvider((ref) => Member(name: ""));
+final memberProvider =
+    ChangeNotifierProvider((ref) => MemberViewModel(isNew: true));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel(memberList: [
-          MemberViewModel(member: Member(name: "八田"), isNew: false),
-          MemberViewModel(member: Member(name: "渡邉"), isNew: false),
-          MemberViewModel(member: Member(name: "宮谷"), isNew: false),
-          MemberViewModel(member: Member(name: "半田"), isNew: false)
+          MemberViewModel(name: "八田", isNew: false),
+          MemberViewModel(name: "渡邉", isNew: false),
+          MemberViewModel(name: "宮谷", isNew: false),
+          MemberViewModel(name: "半田", isNew: false)
         ]));
 
 class EventInfoStep extends HookWidget {
@@ -88,7 +89,7 @@ class EventInfoStep extends HookWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          _memberListPv.memberList[index].member.name,
+                          _memberListPv.memberList[index].name,
                         ),
                       ),
                       if (_memberListPv.memberList[index].isNew)
@@ -128,7 +129,7 @@ class EventInfoStep extends HookWidget {
                   suffixIcon: IconButton(
                     onPressed: () {
                       if (_memberPv.name.trim().isNotEmpty) {
-                        _memberListPv.add(Member(name: _memberPv.name), true);
+                        _memberListPv.add(_memberPv.name, true);
                         _memberPv.setName("");
                         _memberNameController.clear();
                       }

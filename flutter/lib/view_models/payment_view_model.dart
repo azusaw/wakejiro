@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/payment.dart';
 
-class PaymentViewModel with ChangeNotifier {
-  Payment payment =
-      Payment(fromMember: null, toMember: null, amount: 0, isDone: false);
+class PaymentViewModel extends Payment with ChangeNotifier {
+  PaymentViewModel()
+      : super(fromMember: null, toMember: null, amount: 0, isDone: false);
 }
 
 class PaymentListViewModel with ChangeNotifier {

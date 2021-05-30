@@ -38,8 +38,7 @@ class BillingDetailsStep extends HookWidget {
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      _billingDetailsPv.paidPersonName =
-          _memberListPv.memberList[0].member.name;
+      _billingDetailsPv.paidPersonName = _memberListPv.memberList[0].name;
       _billingDetailsPv.amount = 0;
       _billingDetailsPv.paidCategory = null;
     }
@@ -94,8 +93,8 @@ class BillingDetailsStep extends HookWidget {
                               .map<DropdownMenuItem<String>>(
                                   (MemberViewModel item) {
                             return DropdownMenuItem<String>(
-                              value: item.member.name,
-                              child: Text(item.member.name),
+                              value: item.name,
+                              child: Text(item.name),
                             );
                           }).toList(),
                         ));

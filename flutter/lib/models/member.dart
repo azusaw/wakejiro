@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Member extends ChangeNotifier {
+class Member {
   Member({
     @required this.name,
   });
@@ -19,8 +19,6 @@ class Member extends ChangeNotifier {
       );
 
   Map<String, dynamic> toMap() {
-    return {
-      'name': name
-    };
+    return {'name': name};
   }
 }
