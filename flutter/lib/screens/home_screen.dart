@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
-import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +15,7 @@ class HomeScreen extends HookWidget {
 
     useEffect(() {
       Future.microtask(() {
-        database.findAllEvents().then((v) => _eventListPv.eventList = v);
+        _eventListPv.refresh();
       });
       return;
     }, const []);

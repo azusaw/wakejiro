@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/common/theme_color.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends HookWidget {
   final Event event;
 
   EventCard(this.event);
 
   @override
   Widget build(BuildContext context) {
+    final _eventListPv = useProvider(eventListProvider);
+
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(
@@ -29,13 +34,6 @@ class EventCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  event.liquidated ? "清算済み" : "未清算あり",
-                  style: TextStyle(
-                      color: event.liquidated
-                          ? ThemeColor.accent
-                          : ThemeColor.error),
-                ),
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
@@ -44,6 +42,13 @@ class EventCard extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => CreateEventScreen(),
                         ));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    await database.deleteEvent(event);
+                    _eventListPv.refresh();
                   },
                 ),
                 const SizedBox(width: 8),

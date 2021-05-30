@@ -44,6 +44,11 @@ class AppDatabase {
     return (await _database).insert("event", event.toMap());
   }
 
+  Future<int> deleteEvent(Event event) async {
+    return (await _database)
+        .delete("event", where: "id=?", whereArgs: [event.id]);
+  }
+
   Future<List<Event>> findAllEvents() async {
     final list = await (await _database).query("event");
     return list.map((m) => Event.of(m)).toList();

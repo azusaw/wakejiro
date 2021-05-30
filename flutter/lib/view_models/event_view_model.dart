@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/event.dart';
 
 class EventViewModel extends Event with ChangeNotifier {
@@ -26,5 +28,14 @@ class EventListViewModel with ChangeNotifier {
   void delete(int index) {
     eventList.removeAt(index);
     notifyListeners();
+  }
+
+  Future<void> refresh() async {
+    var completer = Completer<void>();
+    await database.findAllEvents().then((v) => eventList = v).then((v) {
+      notifyListeners();
+      completer.complete();
+    });
+    return completer.future;
   }
 }
