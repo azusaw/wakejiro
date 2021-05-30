@@ -3,22 +3,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-final databaseProvider = Provider<AppDatabase>((ref) => AppDatabase());
+var database = AppDatabase();
 
 class AppDatabase {
-  Database db;
+  Database _db;
 
-  AppDatabase() {
-    init();
+  Future<Database> get _database async {
+    if (_db == null) {
+      _db = await _init();
+    }
+    return _db;
   }
 
-  void init() async {
+  Future<Database> _init() async {
     final path = join(await getDatabasesPath(), "database.db");
 
     // スキーマ変更時などは↓をコメントアウトしてDBをリセットする
     // await deleteDatabase(path);
 
-    db = await openDatabase(
+    return await openDatabase(
       path,
       version: 1,
       // DBがpathに存在しなかった場合に onCreateメソッドが呼ばれる
@@ -38,11 +41,11 @@ class AppDatabase {
   }
 
   Future<int> insertEvent(Event event) async {
-    return await db.insert("event", event.toMap());
+    return (await _database).insert("event", event.toMap());
   }
 
   Future<List<Event>> findAllEvents() async {
-    final list = await db.query("event");
+    final list = await (await _database).query("event");
     return list.map((m) => Event.of(m)).toList();
   }
 }

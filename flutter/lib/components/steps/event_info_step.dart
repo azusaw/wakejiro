@@ -29,7 +29,6 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
-    final _databasePv = useProvider(databaseProvider);
     final _memberNameController = TextEditingController(text: "");
 
     return Column(
@@ -142,7 +141,7 @@ class EventInfoStep extends HookWidget {
           StepControlButtons(
             back: back,
             next: () async {
-              await _databasePv.insertEvent(_eventPv.event);
+              await database.insertEvent(_eventPv.event);
               next();
             },
           ),

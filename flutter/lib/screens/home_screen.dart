@@ -12,12 +12,11 @@ final eventListProvider = ChangeNotifierProvider((ref) => EventListViewModel());
 class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final _dbPv = useProvider(databaseProvider);
     final _eventListPv = useProvider(eventListProvider);
 
     useEffect(() {
       Future.microtask(() {
-        _dbPv.findAllEvents().then((v) => _eventListPv.eventList = v);
+        database.findAllEvents().then((v) => _eventListPv.eventList = v);
       });
       return;
     }, const []);
