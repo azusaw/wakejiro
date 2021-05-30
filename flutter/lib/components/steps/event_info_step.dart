@@ -134,6 +134,7 @@ class EventInfoStep extends HookWidget {
                   suffixIcon: IconButton(
                     onPressed: () {
                       if (_memberPv.name.trim().isNotEmpty) {
+                        FocusScope.of(context).unfocus();
                         _memberListPv.add(_memberPv.name, true);
                         _memberPv.setName("");
                         _memberNameController.clear();
