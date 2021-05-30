@@ -12,8 +12,6 @@ void main() => runApp(
       ),
     );
 
-final databaseProvider = Provider((ref) => AppDatabase());
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
