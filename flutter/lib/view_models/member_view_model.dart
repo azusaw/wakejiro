@@ -10,14 +10,6 @@ class MemberViewModel with ChangeNotifier {
   Member member;
   bool isNew;
   var checked = true;
-
-  void setName(String name) {
-    member.name = name;
-  }
-
-  void setChecked(bool checked) {
-    this.checked = checked;
-  }
 }
 
 class MemberListViewModel with ChangeNotifier {
@@ -38,7 +30,7 @@ class MemberListViewModel with ChangeNotifier {
   }
 
   void changeChecked(int index, bool checked) {
-    memberList[index].setChecked(checked);
+    memberList[index].checked = checked;
     notifyListeners();
   }
 }
