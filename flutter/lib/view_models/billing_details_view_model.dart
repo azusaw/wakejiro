@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 
-class BillingDetailsViewModel with ChangeNotifier {
-  BillingDetails billingDetails =
-      BillingDetails(paidPersonName: "", paidCategory: null, amount: 0);
+class BillingDetailsViewModel extends BillingDetails with ChangeNotifier {
+  BillingDetailsViewModel()
+      : super(paidPersonName: "", paidCategory: null, amount: 0);
 }
 
 class BillingDetailsListViewModel with ChangeNotifier {

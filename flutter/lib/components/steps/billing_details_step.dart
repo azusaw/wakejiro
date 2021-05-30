@@ -38,10 +38,10 @@ class BillingDetailsStep extends HookWidget {
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      _billingDetailsPv.billingDetails.paidPersonName =
+      _billingDetailsPv.paidPersonName =
           _memberListPv.memberList[0].member.name;
-      _billingDetailsPv.billingDetails.amount = 0;
-      _billingDetailsPv.billingDetails.paidCategory = null;
+      _billingDetailsPv.amount = 0;
+      _billingDetailsPv.paidCategory = null;
     }
 
     useEffect(() {
@@ -81,15 +81,13 @@ class BillingDetailsStep extends HookWidget {
                       child: StatefulBuilder(builder: (context, setState) {
                         return DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
-                          value:
-                              '${_billingDetailsPv.billingDetails.paidPersonName}',
+                          value: '${_billingDetailsPv.paidPersonName}',
                           isDense: true,
                           icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
                           onChanged: (String value) {
                             setState(() {});
-                            _billingDetailsPv.billingDetails.paidPersonName =
-                                value;
+                            _billingDetailsPv.paidPersonName = value;
                           },
                           items: _memberListPv.memberList
                               .where((v) => v.isChecked)
@@ -126,8 +124,7 @@ class BillingDetailsStep extends HookWidget {
                                   RegExp(r'[0-9]')),
                             ],
                             onChanged: (String amount) {
-                              _billingDetailsPv.billingDetails.amount =
-                                  int.parse(amount);
+                              _billingDetailsPv.amount = int.parse(amount);
                             }));
                   })),
               Container(
@@ -142,7 +139,7 @@ class BillingDetailsStep extends HookWidget {
                     shrinkWrap: true,
                     itemCount: _paidCategoryList.length,
                     itemBuilder: (context, index) {
-                      if (_billingDetailsPv.billingDetails.amount > 0) {
+                      if (_billingDetailsPv.amount > 0) {
                         return ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
@@ -161,14 +158,11 @@ class BillingDetailsStep extends HookWidget {
                             ),
                           ),
                           onPressed: () {
-                            if (_billingDetailsPv.billingDetails.amount > 0 &&
-                                _billingDetailsPv
-                                        .billingDetails.paidPersonName !=
-                                    "") {
-                              _billingDetailsPv.billingDetails.paidCategory =
+                            if (_billingDetailsPv.amount > 0 &&
+                                _billingDetailsPv.paidPersonName != "") {
+                              _billingDetailsPv.paidCategory =
                                   _paidCategoryList[index];
-                              _billingDetailsListPv
-                                  .add(_billingDetailsPv.billingDetails);
+                              _billingDetailsListPv.add(_billingDetailsPv);
                               setDefaultValue();
                               Navigator.of(context).pop();
                             }
