@@ -39,13 +39,13 @@ class BillingDetailsStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tmpPv = useProvider(billingDetailsProvider);
-    final tmpListPv = useProvider(billingDetailsListProvider);
+    final _billingDetailsPv = useProvider(billingDetailsProvider);
+    final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      tmpPv.setPaidPersonName(_memberList[0].name);
-      tmpPv.setAmount(0);
-      tmpPv.setPaidCategory(null);
+      _billingDetailsPv.billingDetails.paidPersonName = _memberList[0].name;
+      _billingDetailsPv.billingDetails.amount = 0;
+      _billingDetailsPv.billingDetails.paidCategory = null;
     }
 
     useEffect(() {
@@ -85,13 +85,15 @@ class BillingDetailsStep extends HookWidget {
                       child: StatefulBuilder(builder: (context, setState) {
                         return DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
-                          value: '${tmpPv.billingDetails.paidPersonName}',
+                          value:
+                              '${_billingDetailsPv.billingDetails.paidPersonName}',
                           isDense: true,
                           icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
                           onChanged: (String value) {
                             setState(() {});
-                            tmpPv.setPaidPersonName(value);
+                            _billingDetailsPv.billingDetails.paidPersonName =
+                                value;
                           },
                           items: _memberList
                               .map<DropdownMenuItem<String>>((Member item) {
@@ -126,7 +128,8 @@ class BillingDetailsStep extends HookWidget {
                                   RegExp(r'[0-9]')),
                             ],
                             onChanged: (String amount) {
-                              tmpPv.setAmount(int.parse(amount));
+                              _billingDetailsPv.billingDetails.amount =
+                                  int.parse(amount);
                             }));
                   })),
               Container(
@@ -141,7 +144,7 @@ class BillingDetailsStep extends HookWidget {
                     shrinkWrap: true,
                     itemCount: _paidCategoryList.length,
                     itemBuilder: (context, index) {
-                      if (tmpPv.billingDetails.amount > 0) {
+                      if (_billingDetailsPv.billingDetails.amount > 0) {
                         return ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
@@ -160,10 +163,14 @@ class BillingDetailsStep extends HookWidget {
                             ),
                           ),
                           onPressed: () {
-                            if (tmpPv.billingDetails.amount > 0 &&
-                                tmpPv.billingDetails.paidPersonName != "") {
-                              tmpPv.setPaidCategory(_paidCategoryList[index]);
-                              tmpListPv.add(tmpPv.billingDetails);
+                            if (_billingDetailsPv.billingDetails.amount > 0 &&
+                                _billingDetailsPv
+                                        .billingDetails.paidPersonName !=
+                                    "") {
+                              _billingDetailsPv.billingDetails.paidCategory =
+                                  _paidCategoryList[index];
+                              _billingDetailsListPv
+                                  .add(_billingDetailsPv.billingDetails);
                               setDefaultValue();
                               Navigator.of(context).pop();
                             }
@@ -180,39 +187,41 @@ class BillingDetailsStep extends HookWidget {
       );
     }
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: <
-        Widget>[
-      Column(
-          children: List.generate(tmpListPv.billingDetailsList.length, (index) {
-        return Container(
-            margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            child:
-                BillingDetailsCard(tmpListPv.billingDetailsList[index], index));
-      })),
-      Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        SizedBox(height: 30),
-        Container(
-          child: ElevatedButton(
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all(8),
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                minimumSize: MaterialStateProperty.all(Size(250, 60)),
-              ),
-              child: Icon(Icons.add, color: Colors.grey),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(30.0),
-                            topRight: const Radius.circular(30.0))),
-                    backgroundColor: Colors.white,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) => _modalContent());
-              }),
-        ),
-        StepControlButtons(back: back, next: next)
-      ]),
-    ]);
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+              children: List.generate(
+                  _billingDetailsListPv.billingDetailsList.length, (index) {
+            return Container(
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: BillingDetailsCard(
+                    _billingDetailsListPv.billingDetailsList[index], index));
+          })),
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(height: 30),
+            Container(
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(8),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    minimumSize: MaterialStateProperty.all(Size(250, 60)),
+                  ),
+                  child: Icon(Icons.add, color: Colors.grey),
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(30.0),
+                                topRight: const Radius.circular(30.0))),
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        builder: (BuildContext context) => _modalContent());
+                  }),
+            ),
+            StepControlButtons(back: back, next: next)
+          ]),
+        ]);
   }
 }

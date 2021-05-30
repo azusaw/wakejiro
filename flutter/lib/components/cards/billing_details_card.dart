@@ -15,7 +15,7 @@ class BillingDetailsCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tmpListPv = useProvider(billingDetailsListProvider);
+    final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     return Card(
       elevation: 8,
@@ -63,7 +63,7 @@ class BillingDetailsCard extends HookWidget {
                   icon: const Icon(Icons.delete),
                   color: Colors.grey,
                   onPressed: () {
-                    tmpListPv.delete(index);
+                    _billingDetailsListPv.delete(index);
                   },
                 ),
               ],

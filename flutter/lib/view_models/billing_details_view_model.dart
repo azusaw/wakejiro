@@ -1,22 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/billing_details.dart';
-import 'package:flutter_sample/models/paid_category.dart';
 
 class BillingDetailsViewModel with ChangeNotifier {
   BillingDetails billingDetails =
       new BillingDetails(paidPersonName: "", paidCategory: null, amount: 0);
-
-  void setPaidPersonName(String name) {
-    billingDetails.paidPersonName = name;
-  }
-
-  void setPaidCategory(PaidCategory paidCategory) {
-    billingDetails.paidCategory = paidCategory;
-  }
-
-  void setAmount(int amount) {
-    billingDetails.amount = amount;
-  }
 }
 
 class BillingDetailsListViewModel with ChangeNotifier {
