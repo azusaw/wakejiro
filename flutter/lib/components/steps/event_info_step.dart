@@ -8,20 +8,17 @@ import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 final eventProvider = ChangeNotifierProvider((ref) => EventViewModel(
     event: Event(name: "", date: DateTime.now(), liquidated: false)));
 final memberProvider = ChangeNotifierProvider((ref) => Member(name: ""));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel(memberList: [
-          MemberViewModel(member: Member(name: "八田")),
-          MemberViewModel(member: Member(name: "渡邉")),
-          MemberViewModel(member: Member(name: "宮谷")),
-          MemberViewModel(member: Member(name: "半田"))
+          MemberViewModel(member: Member(name: "八田"), isNew: false),
+          MemberViewModel(member: Member(name: "渡邉"), isNew: false),
+          MemberViewModel(member: Member(name: "宮谷"), isNew: false),
+          MemberViewModel(member: Member(name: "半田"), isNew: false)
         ]));
-final addedMemberListProvider =
-    ChangeNotifierProvider((ref) => MemberListViewModel(memberList: []));
 
 class EventInfoStep extends HookWidget {
   EventInfoStep({this.back, this.next});
@@ -33,7 +30,6 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
-    final _addedMemberListPv = useProvider(addedMemberListProvider);
     final _memberNameController = TextEditingController(text: "");
 
     return Column(
@@ -85,49 +81,36 @@ class EventInfoStep extends HookWidget {
               _memberListPv.memberList.length,
               (index) {
                 return CheckboxListTile(
-                  title: Text(_memberListPv.memberList[index].member.name),
-                  value: _memberListPv.memberList[index].checked,
-                  onChanged: (newValue) {
-                    _memberListPv.changeChecked(newValue, index);
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: ThemeColor.accent,
-                );
-              },
-            ),
-          ),
-          Column(
-            children: List.generate(
-              _addedMemberListPv.memberList.length,
-              (index) {
-                return CheckboxListTile(
                   title: Row(
                     children: [
                       Expanded(
                         child: Text(
-                          _addedMemberListPv.memberList[index].member.name,
+                          _memberListPv.memberList[index].member.name,
                         ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            child: IconButton(
-                              onPressed: () {
-                                _addedMemberListPv.delete(index);
-                              },
-                              icon: Icon(Icons.delete),
-                              color: Colors.grey,
+                      if (_memberListPv.memberList[index].isNew)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: IconButton(
+                                onPressed: () {
+                                  _memberListPv.delete(index);
+                                },
+                                icon: Icon(Icons.delete),
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
                     ],
                   ),
-                  value: true,
+                  value: _memberListPv.memberList[index].checked,
+                  onChanged: (newValue) {
+                    _memberListPv.changeChecked(index, newValue);
+                  },
                   controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (bool value) {},
                   activeColor: ThemeColor.accent,
                 );
               },
@@ -142,7 +125,7 @@ class EventInfoStep extends HookWidget {
                   suffixIcon: IconButton(
                     onPressed: () {
                       if (_memberPv.name.trim().isNotEmpty) {
-                        _addedMemberListPv.add(Member(name: _memberPv.name));
+                        _memberListPv.add(Member(name: _memberPv.name), true);
                         _memberPv.setName("");
                         _memberNameController.clear();
                       }

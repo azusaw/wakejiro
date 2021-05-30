@@ -4,9 +4,11 @@ import 'package:flutter_sample/models/member.dart';
 class MemberViewModel with ChangeNotifier {
   MemberViewModel({
     @required this.member,
+    @required this.isNew,
   });
 
   Member member;
+  bool isNew;
   var checked = true;
 
   void setName(String name) {
@@ -25,8 +27,8 @@ class MemberListViewModel with ChangeNotifier {
 
   List<MemberViewModel> memberList;
 
-  void add(Member member) {
-    memberList.add(MemberViewModel(member: member));
+  void add(Member member, bool isNew) {
+    memberList.add(MemberViewModel(member: member, isNew: isNew));
     notifyListeners();
   }
 
@@ -35,7 +37,7 @@ class MemberListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeChecked(bool checked, int index) {
+  void changeChecked(int index, bool checked) {
     memberList[index].setChecked(checked);
     notifyListeners();
   }
