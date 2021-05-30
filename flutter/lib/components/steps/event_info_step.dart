@@ -31,7 +31,11 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
-    final _eventNameController = TextEditingController(text: _eventPv.name);
+    final _eventNameController =
+        TextEditingController.fromValue(TextEditingValue(
+      text: _eventPv.name,
+      selection: TextSelection.collapsed(offset: _eventPv.name.length),
+    ));
     final _memberNameController = TextEditingController(text: "");
 
     return Column(
