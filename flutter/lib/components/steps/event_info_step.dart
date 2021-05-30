@@ -29,6 +29,7 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
+    final _eventNameController = TextEditingController(text: _eventPv.name);
     final _memberNameController = TextEditingController(text: "");
 
     return Column(
@@ -43,13 +44,14 @@ class EventInfoStep extends HookWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0))),
                 child: TextField(
+                    controller: _eventNameController,
                     decoration: InputDecoration(
                         hintText: "イベント名を入力してください",
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.all(0)),
                     onChanged: (String name) {
-                      _eventPv.event.name = name;
+                      _eventPv.setName(name);
                     }),
               );
             }),
@@ -61,7 +63,7 @@ class EventInfoStep extends HookWidget {
             child: Row(
               children: [
                 Text(
-                  dateFormat(_eventPv.event.date),
+                  dateFormat(_eventPv.date),
                   style: TextStyle(fontSize: 20.0, letterSpacing: 1),
                 ),
                 SizedBox(
@@ -141,10 +143,10 @@ class EventInfoStep extends HookWidget {
           StepControlButtons(
             back: back,
             next: () async {
-              await database.insertEvent(_eventPv.event);
+              await database.insertEvent(_eventPv);
               next();
             },
-            disabled: _eventPv.event.name == "" ||
+            disabled: _eventPv.name == "" ||
                 _memberListPv.memberList.where((v) => v.isChecked).length == 0,
           ),
         ]);
@@ -155,7 +157,7 @@ class EventInfoStep extends HookWidget {
       context: context,
       helpText: "",
       locale: const Locale("ja"),
-      initialDate: eventPv.event.date,
+      initialDate: eventPv.date,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget child) {
@@ -168,6 +170,6 @@ class EventInfoStep extends HookWidget {
         );
       },
     );
-    if (picked != null) eventPv.event.date = picked;
+    if (picked != null) eventPv.setDate(picked);
   }
 }

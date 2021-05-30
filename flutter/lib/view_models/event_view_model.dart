@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/event.dart';
 
-class EventViewModel with ChangeNotifier {
-  Event event = Event(name: "", date: DateTime.now(), liquidated: false);
+class EventViewModel extends Event with ChangeNotifier {
+  EventViewModel() : super(name: "", date: DateTime.now(), liquidated: false);
+
+  void setName(String name) {
+    this.name = name;
+    notifyListeners();
+  }
+
+  void setDate(DateTime date) {
+    this.date = date;
+    notifyListeners();
+  }
 }
 
 class EventListViewModel with ChangeNotifier {

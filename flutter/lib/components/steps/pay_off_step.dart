@@ -59,7 +59,7 @@ class PayOffStep extends HookWidget {
           ListTile(
             leading: Text("イベント名",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-            title: Text(dateFormat(_eventPv.event.date)),
+            title: Text(dateFormat(_eventPv.date)),
           ),
           ListTile(
             leading: Text("合計",
