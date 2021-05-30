@@ -14,9 +14,11 @@ class EventViewModel extends Event with ChangeNotifier {
   }
 
   void setEvent(Event event) {
-    this.setName(event.name);
-    this.setDate(event.date);
-    this.setLiquidated(event.liquidated);
+    this.id = event.id;
+    this.name = event.name;
+    this.date = event.date;
+    this.liquidated = event.liquidated;
+    notifyListeners();
   }
 
   void setName(String name) {

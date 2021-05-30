@@ -150,7 +150,9 @@ class EventInfoStep extends HookWidget {
           StepControlButtons(
             back: back,
             next: () async {
-              await database.insertEvent(_eventPv);
+              _eventPv.id != null
+                  ? await database.updateEvent(_eventPv)
+                  : await database.insertEvent(_eventPv);
               next();
             },
             disabled: _eventPv.name == "" ||

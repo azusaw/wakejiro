@@ -1,5 +1,4 @@
 import 'package:flutter_sample/models/event.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -42,6 +41,11 @@ class AppDatabase {
 
   Future<int> insertEvent(Event event) async {
     return (await _database).insert("event", event.toMap());
+  }
+
+  Future<int> updateEvent(Event event) async {
+    return (await _database)
+        .update("event", event.toMap(), where: "id=?", whereArgs: [event.id]);
   }
 
   Future<int> deleteEvent(Event event) async {
