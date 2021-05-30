@@ -78,7 +78,11 @@ class PayOffStep extends HookWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
-          StepControlButtons(back: back, next: next)
+          StepControlButtons(
+            back: back,
+            next: next,
+            disabled: false,
+          )
         ]);
   }
 }

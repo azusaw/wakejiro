@@ -144,6 +144,8 @@ class EventInfoStep extends HookWidget {
               await database.insertEvent(_eventPv.event);
               next();
             },
+            disabled: _eventPv.event.name == "" ||
+                _memberListPv.memberList.where((v) => v.isChecked).length == 0,
           ),
         ]);
   }

@@ -3,7 +3,7 @@ import 'package:flutter_sample/models/billing_details.dart';
 
 class BillingDetailsViewModel with ChangeNotifier {
   BillingDetails billingDetails =
-      new BillingDetails(paidPersonName: "", paidCategory: null, amount: 0);
+      BillingDetails(paidPersonName: "", paidCategory: null, amount: 0);
 }
 
 class BillingDetailsListViewModel with ChangeNotifier {

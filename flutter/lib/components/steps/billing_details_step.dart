@@ -218,7 +218,10 @@ class BillingDetailsStep extends HookWidget {
                         builder: (BuildContext context) => _modalContent());
                   }),
             ),
-            StepControlButtons(back: back, next: next)
+            StepControlButtons(
+                back: back,
+                next: next,
+                disabled: _billingDetailsListPv.billingDetailsList.length < 1)
           ]),
         ]);
   }
