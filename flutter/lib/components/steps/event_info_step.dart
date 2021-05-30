@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/models/member.dart';
-import 'package:flutter_sample/screens/home_screen.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';

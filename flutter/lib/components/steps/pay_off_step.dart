@@ -4,7 +4,7 @@ import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/pay_off_card.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/payment.dart';
-import 'package:flutter_sample/view_models/billing_details_view_model.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';

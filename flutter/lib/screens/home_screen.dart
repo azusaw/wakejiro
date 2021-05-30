@@ -7,8 +7,6 @@ import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final eventProvider = ChangeNotifierProvider((ref) => EventViewModel(
-    event: Event(name: "釣り", date: DateTime.now(), liquidated: false)));
 final eventListProvider =
     ChangeNotifierProvider((ref) => EventListViewModel(eventList: [
           Event(name: "釣り", date: DateTime(2021, 4, 29), liquidated: true),
@@ -18,7 +16,6 @@ final eventListProvider =
 class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final _eventPv = useProvider(eventProvider);
     final _eventListPv = useProvider(eventListProvider);
 
     return Scaffold(
