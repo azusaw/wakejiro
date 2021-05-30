@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
-import 'package:flutter_sample/models/event.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
@@ -43,12 +42,14 @@ class EventInfoStep extends HookWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0))),
                 child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "イベント名を入力してください",
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.all(0)),
-                ),
+                    decoration: InputDecoration(
+                        hintText: "イベント名を入力してください",
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(0)),
+                    onChanged: (String name) {
+                      _eventPv.event.name = name;
+                    }),
               );
             }),
           ),
