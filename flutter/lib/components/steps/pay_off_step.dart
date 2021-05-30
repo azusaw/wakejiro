@@ -9,6 +9,10 @@ import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+final paymentProvider = ChangeNotifierProvider((ref) => PaymentViewModel());
+final paymentListProvider =
+    ChangeNotifierProvider((ref) => PaymentListViewModel());
+
 class PayOffStep extends HookWidget {
   PayOffStep({this.back, this.next});
   final Function back;
@@ -16,8 +20,8 @@ class PayOffStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final billingDetailsListPv = useProvider(billingDetailsListProvider);
-    final paymentListPv = useProvider(paymentListProvider);
+    final _billingDetailsListPv = useProvider(billingDetailsListProvider);
+    final _paymentListPv = useProvider(paymentListProvider);
 
     // サンプルデータ
     final _paymentList = <Payment>[
@@ -34,9 +38,9 @@ class PayOffStep extends HookWidget {
     ];
 
     void setListDefaultValue() {
-      paymentListPv.deleteAll();
+      _paymentListPv.deleteAll();
       _paymentList.forEach((element) {
-        paymentListPv.add(element);
+        _paymentListPv.add(element);
       });
     }
 
@@ -58,12 +62,12 @@ class PayOffStep extends HookWidget {
           ListTile(
             leading: Text("合計",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
-            title: Text(
-                NumberFormat('#,##0').format(billingDetailsListPv.calcTotal()) +
-                    "円"),
+            title: Text(NumberFormat('#,##0')
+                    .format(_billingDetailsListPv.calcTotal()) +
+                "円"),
           ),
           ListView.builder(
-            itemCount: paymentListPv.paymentList.length,
+            itemCount: _paymentListPv.paymentList.length,
             itemBuilder: (context, index) {
               return Container(
                   margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),

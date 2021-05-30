@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/theme_color.dart';
+import 'package:flutter_sample/components/steps/pay_off_step.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:intl/intl.dart';
 
 class PaymentCard extends HookWidget {
@@ -12,10 +12,10 @@ class PaymentCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentListPv = useProvider(paymentListProvider);
+    final _paymentListPv = useProvider(paymentListProvider);
 
     return Card(
-      elevation: paymentListPv.paymentList[index].isDone ? 1 : 10,
+      elevation: _paymentListPv.paymentList[index].isDone ? 1 : 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -32,7 +32,7 @@ class PaymentCard extends HookWidget {
                     margin: const EdgeInsets.only(left: 10, bottom: 4),
                     child: Row(children: <Widget>[
                       Text(
-                        paymentListPv.paymentList[index].fromMember.name,
+                        _paymentListPv.paymentList[index].fromMember.name,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
@@ -42,7 +42,7 @@ class PaymentCard extends HookWidget {
                             size: 18.0, color: Colors.blueGrey),
                       ),
                       Text(
-                        paymentListPv.paymentList[index].toMember.name,
+                        _paymentListPv.paymentList[index].toMember.name,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
@@ -51,8 +51,8 @@ class PaymentCard extends HookWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 10),
                     child: Text(
-                      NumberFormat('#,##0')
-                              .format(paymentListPv.paymentList[index].amount) +
+                      NumberFormat('#,##0').format(
+                              _paymentListPv.paymentList[index].amount) +
                           "円",
                       style: TextStyle(fontSize: 14.0, color: Colors.blueGrey),
                     ),
@@ -64,7 +64,7 @@ class PaymentCard extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Ink(
-                  decoration: paymentListPv.paymentList[index].isDone
+                  decoration: _paymentListPv.paymentList[index].isDone
                       ? ShapeDecoration(
                           color: ThemeColor.accent,
                           shape: CircleBorder(),
@@ -77,8 +77,7 @@ class PaymentCard extends HookWidget {
                     icon: Icon(Icons.check, size: 30.0),
                     color: Colors.white,
                     onPressed: () {
-                      paymentListPv.inverseDone(index);
-                      print(paymentListPv.paymentList[index].isDone);
+                      _paymentListPv.inverseDone(index);
                     },
                   ),
                 ),
