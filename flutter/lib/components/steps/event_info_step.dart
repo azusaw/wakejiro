@@ -75,7 +75,7 @@ class EventInfoStep extends HookWidget {
                   style: TextStyle(fontSize: 20.0, letterSpacing: 1),
                 ),
                 SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
                 IconButton(
                   color: Colors.grey,
@@ -104,7 +104,7 @@ class EventInfoStep extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 10),
+                              margin: EdgeInsets.only(right: 15),
                               child: IconButton(
                                 onPressed: () {
                                   _memberListPv.delete(index);
@@ -128,31 +128,29 @@ class EventInfoStep extends HookWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 25),
-            child: TextFormField(
-              controller: _memberNameController,
-              decoration: InputDecoration(
-                labelText: 'メンバー名',
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: IconButton(
-                    onPressed: () {
-                      if (_memberPv.name.trim().isNotEmpty) {
-                        _memberListPv.add(_memberPv.name, true);
-                        _memberPv.setName("");
-                        _memberNameController.clear();
-                      }
-                    },
-                    icon: Icon(Icons.add),
-                  ),
+            margin: EdgeInsets.only(top: 10, left: 25, right: 30),
+            child: Stack(alignment: Alignment.centerRight, children: [
+              TextFormField(
+                controller: _memberNameController,
+                decoration: InputDecoration(
+                  labelText: 'メンバー名',
                 ),
+                onChanged: (newValue) {
+                  _memberPv.setName(newValue);
+                },
               ),
-              onChanged: (newValue) {
-                _memberPv.setName(newValue);
-              },
-            ),
+              IconButton(
+                color: Colors.grey,
+                onPressed: () {
+                  if (_memberPv.name.trim().isNotEmpty) {
+                    _memberListPv.add(_memberPv.name, true);
+                    _memberPv.setName("");
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+                icon: Icon(Icons.add),
+              ),
+            ]),
           ),
           StepControlButtons(
             back: back,
