@@ -7,6 +7,7 @@ class EventViewModel extends Event with ChangeNotifier {
   EventViewModel() : super(name: "", date: DateTime.now(), liquidated: false);
 
   void setDefaultValue() {
+    this.id = null;
     this.name = "";
     this.date = DateTime.now();
     liquidated = false;
