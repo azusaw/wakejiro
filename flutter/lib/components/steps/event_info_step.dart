@@ -12,12 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final memberProvider =
     ChangeNotifierProvider((ref) => MemberViewModel(name: "", isNew: true));
 final memberListProvider =
-    ChangeNotifierProvider((ref) => MemberListViewModel(memberList: [
-          MemberViewModel(name: "八田", isNew: false),
-          MemberViewModel(name: "渡邉", isNew: false),
-          MemberViewModel(name: "宮谷", isNew: false),
-          MemberViewModel(name: "半田", isNew: false)
-        ]));
+    ChangeNotifierProvider((ref) => MemberListViewModel());
 
 class EventInfoStep extends HookWidget {
   EventInfoStep({this.back, this.next});
@@ -39,6 +34,13 @@ class EventInfoStep extends HookWidget {
       text: _memberPv.name,
       selection: TextSelection.collapsed(offset: _memberPv.name.length),
     ));
+
+    useEffect(() {
+      Future.microtask(() {
+        _memberListPv.refresh();
+      });
+      return;
+    }, const []);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +144,9 @@ class EventInfoStep extends HookWidget {
               IconButton(
                 color: Colors.grey,
                 onPressed: () {
-                  if (_memberPv.name.trim().isNotEmpty) {
+                  if (_memberPv.name.trim().isNotEmpty &&
+                      _memberListPv.memberList.every(
+                          (member) => member.name != _memberPv.name.trim())) {
                     _memberListPv.add(_memberPv.name, true);
                     _memberPv.setName("");
                     FocusScope.of(context).unfocus();
@@ -158,6 +162,12 @@ class EventInfoStep extends HookWidget {
               _eventPv.id != null
                   ? await database.updateEvent(_eventPv)
                   : await database.insertEvent(_eventPv);
+              _memberListPv.memberList.asMap().forEach((index, member) async {
+                if (member.isNew) {
+                  await database.insertMember(member);
+                  _memberListPv.changeIsNew(index, false);
+                }
+              });
               next();
             },
             disabled: _eventPv.name == "" ||

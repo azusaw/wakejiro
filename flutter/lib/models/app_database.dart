@@ -2,6 +2,8 @@ import 'package:flutter_sample/models/event.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'member.dart';
+
 var database = AppDatabase();
 
 class AppDatabase {
@@ -15,7 +17,7 @@ class AppDatabase {
   }
 
   Future<Database> _init() async {
-    final path = join(await getDatabasesPath(), "database.db");
+    final path = join(await getDatabasesPath(), 'database.db');
 
     // スキーマ変更時などは↓をコメントインしてDBをリセットする
     // await deleteDatabase(path);
@@ -24,37 +26,54 @@ class AppDatabase {
       path,
       version: 1,
       // DBがpathに存在しなかった場合に onCreateメソッドが呼ばれる
-      onCreate: (Database newDb, int version) {
-        newDb.execute("CREATE TABLE IF NOT EXISTS event "
-            "(id INTEGER PRIMARY KEY, name TEXT, date TEXT, liquidated INTEGER);"
-            "CREATE TABLE IF NOT EXISTS member "
-            "(id INTEGER PRIMARY KEY, name TEXT);"
-            "CREATE TABLE IF NOT EXISTS participant "
-            "(id INTEGER PRIMARY KEY, event_id INTEGER, member_id INTEGER);"
-            "CREATE TABLE IF NOT EXISTS billing_detail "
-            "(id INTEGER PRIMARY KEY, participant_id INTEGER, amount INTEGER, category INTEGER);"
-            "CREATE TABLE IF NOT EXISTS liquidation "
-            "(id INTEGER PRIMARY KEY, from_participant INTEGER, to_participant INTEGER, amount INTEGER)");
+      onCreate: (Database newDb, int version) async {
+        await newDb.execute('CREATE TABLE IF NOT EXISTS event '
+            '(id INTEGER PRIMARY KEY, name TEXT, date TEXT, liquidated INTEGER);');
+        await newDb.execute('CREATE TABLE IF NOT EXISTS member '
+            '(id INTEGER PRIMARY KEY, name TEXT UNIQUE);');
+        await newDb.execute('CREATE TABLE IF NOT EXISTS participant '
+            '(id INTEGER PRIMARY KEY, event_id INTEGER, member_id INTEGER);');
+        await newDb.execute('CREATE TABLE IF NOT EXISTS billing_detail '
+            '(id INTEGER PRIMARY KEY, participant_id INTEGER, amount INTEGER, category INTEGER);');
+        await newDb.execute('CREATE TABLE IF NOT EXISTS liquidation '
+            '(id INTEGER PRIMARY KEY, from_participant INTEGER, to_participant INTEGER, amount INTEGER)');
       },
     );
   }
 
+  Future<List<Event>> findAllEvents() async {
+    final list = await (await _database).query('event');
+    return list.map((m) => Event.of(m)).toList();
+  }
+
   Future<int> insertEvent(Event event) async {
-    return (await _database).insert("event", event.toMap());
+    return (await _database).insert('event', event.toMap());
   }
 
   Future<int> updateEvent(Event event) async {
     return (await _database)
-        .update("event", event.toMap(), where: "id=?", whereArgs: [event.id]);
+        .update('event', event.toMap(), where: 'id=?', whereArgs: [event.id]);
   }
 
-  Future<int> deleteEvent(Event event) async {
+  Future<int> deleteEvent(int id) async {
+    return (await _database).delete('event', where: 'id=?', whereArgs: [id]);
+  }
+
+  Future<List<Member>> findAllMembers() async {
+    final list = await (await _database).query('member');
+    return list.map((m) => Member.of(m)).toList();
+  }
+
+  Future<int> insertMember(Member member) async {
+    return (await _database).insert('member', member.toMap());
+  }
+
+  Future<int> deleteMember(int id) async {
+    return (await _database).delete('member', where: 'id=?', whereArgs: [id]);
+  }
+
+  Future<int> insertParticipant(int eventId, int memberId) async {
     return (await _database)
-        .delete("event", where: "id=?", whereArgs: [event.id]);
-  }
-
-  Future<List<Event>> findAllEvents() async {
-    final list = await (await _database).query("event");
-    return list.map((m) => Event.of(m)).toList();
+        .insert('participant', {'event_id': eventId, 'member_id': memberId});
   }
 }

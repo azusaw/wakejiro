@@ -65,7 +65,7 @@ class EventCard extends HookWidget {
                                 ElevatedButton(
                                   child: Text('OK'),
                                   onPressed: () async {
-                                    await database.deleteEvent(event);
+                                    await database.deleteEvent(event.id);
                                     _eventListPv.refresh();
                                     Navigator.of(context).pop(0);
                                   },
