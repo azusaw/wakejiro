@@ -11,7 +11,7 @@ class MemberViewModel extends Member with ChangeNotifier {
   }) : super(name: name);
 
   bool isNew;
-  var isChecked = true;
+  var isChecked = false;
 
   void setName(String name) {
     this.name = name;
@@ -47,7 +47,6 @@ class MemberListViewModel with ChangeNotifier {
   }
 
   Future<void> refresh() async {
-    var completer = Completer<void>();
     this.memberList = [];
     await database
         .findAllMembers()
@@ -56,8 +55,23 @@ class MemberListViewModel with ChangeNotifier {
             .add(MemberViewModel(name: member.name, isNew: false))))
         .then((v) {
       notifyListeners();
-      completer.complete();
     });
-    return completer.future;
+  }
+
+  Future<void> refreshByEventId(int eventId) async {
+    this.memberList = [];
+    await database.findAllMembers().then((v) => v.forEach((member) {
+          this.memberList.add(MemberViewModel(name: member.name, isNew: false));
+        }));
+    await database
+        .findAllParticipantByEventId(eventId)
+        .then((v) => v.forEach((member) {
+              print(member);
+              this.changeChecked(
+                  this.memberList.indexWhere((v) => v.name == member.name),
+                  true);
+            }));
+    print(this.memberList);
+    notifyListeners();
   }
 }

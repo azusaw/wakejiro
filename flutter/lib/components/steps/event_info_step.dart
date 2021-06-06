@@ -36,11 +36,9 @@ class EventInfoStep extends HookWidget {
     ));
 
     useEffect(() {
-      Future.microtask(() {
-        _memberListPv.refresh();
-      });
+      _memberListPv.refreshByEventId(_eventPv.id);
       return;
-    }, const []);
+    }, [_eventPv.id]);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

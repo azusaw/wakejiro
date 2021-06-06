@@ -72,8 +72,21 @@ class AppDatabase {
     return (await _database).delete('member', where: 'id=?', whereArgs: [id]);
   }
 
+  Future<List<Member>> findAllParticipantByEventId(int eventId) async {
+    final query = [eventId.toString()];
+    final list = await (await _database).rawQuery(
+        'SELECT member.id, member.name from participant inner join member on participant.member_id = member.id where participant.event_id=?;',
+        query);
+    return list.map((m) => Member.of(m)).toList();
+  }
+
   Future<int> insertParticipant(int eventId, int memberId) async {
     return (await _database)
         .insert('participant', {'event_id': eventId, 'member_id': memberId});
+  }
+
+  Future<int> deleteParticipant(int id) async {
+    return (await _database)
+        .delete('participant', where: 'id=?', whereArgs: [id]);
   }
 }
