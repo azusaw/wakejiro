@@ -171,19 +171,46 @@ class EventInfoStep extends HookWidget {
                   _memberListPv.changeIsNew(index, false);
                 }
               });
-              database.replaceParticipant(
-                  _eventPv.id,
-                  _memberListPv.memberList
-                      .where((member) => member.isChecked)
-                      .map((e) => e.id)
-                      .toList());
-              await _participantListPv.refreshByEventId(_eventPv.id);
-              next();
+              final eventId = _eventPv.id;
+              final participantIds = _memberListPv.memberList
+                  .where((member) => member.isChecked)
+                  .map((e) => e.id)
+                  .toList();
+              if (await checkDelete(eventId, participantIds, context)) {
+                database.replaceParticipant(eventId, participantIds);
+                await _participantListPv.refreshByEventId(_eventPv.id);
+                next();
+              }
             },
             disabled: _eventPv.name == "" ||
                 _memberListPv.memberList.where((v) => v.isChecked).length == 0,
           ),
         ]);
+  }
+
+  Future<bool> checkDelete(
+      int eventId, List<int> participantIds, BuildContext context) async {
+    return !await database.checkDeleteParticipant(eventId, participantIds) ||
+        await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('メンバーの削除'),
+              content: Text('参加メンバーを削除すると、支払い明細もあわせて削除されますがよろしいですか？'),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                ElevatedButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            );
+          },
+        );
   }
 
   Future<Null> selectDate(BuildContext context, EventViewModel eventPv) async {

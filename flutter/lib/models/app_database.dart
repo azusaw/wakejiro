@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_sample/models/event.dart';
 import 'package:flutter_sample/models/participant.dart';
 import 'package:path/path.dart';
@@ -91,5 +92,12 @@ class AppDatabase {
         where: 'event_id=? AND member_id NOT IN (${memberIds.join(',')})',
         whereArgs: [eventId]);
     await batch.commit(noResult: true);
+  }
+
+  Future<bool> checkDeleteParticipant(int eventId, List<int> memberIds) async {
+    final result = await (await _database).rawQuery('SELECT EXISTS('
+        'SELECT * FROM participant '
+        'WHERE event_id=$eventId AND member_id NOT IN (${memberIds.join(',')}))');
+    return result.first.entries.first.value == 1;
   }
 }
