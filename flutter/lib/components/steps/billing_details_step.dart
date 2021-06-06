@@ -19,6 +19,7 @@ final billingDetailsProvider =
 
 class BillingDetailsStep extends HookWidget {
   BillingDetailsStep({this.back, this.next});
+
   final Function back;
   final Function next;
 
@@ -38,7 +39,7 @@ class BillingDetailsStep extends HookWidget {
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      _billingDetailsPv.paidPersonName = _memberListPv.memberList[0].name;
+      _billingDetailsPv.paidMember = _memberListPv.memberList[0];
       _billingDetailsPv.amount = 0;
       _billingDetailsPv.paidCategory = null;
     }
@@ -70,37 +71,43 @@ class BillingDetailsStep extends HookWidget {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.all(20),
-                  child: FormField<String>(
-                      builder: (FormFieldState<String> state) {
+                margin: EdgeInsets.all(20),
+                child: FormField<String>(
+                  builder: (FormFieldState<String> state) {
                     return InputDecorator(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0))),
-                      child: StatefulBuilder(builder: (context, setState) {
-                        return DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                          value: '${_billingDetailsPv.paidPersonName}',
-                          isDense: true,
-                          icon: const Icon(Icons.arrow_drop_down),
-                          iconSize: 24,
-                          onChanged: (String value) {
-                            setState(() {});
-                            _billingDetailsPv.paidPersonName = value;
-                          },
-                          items: _memberListPv.memberList
-                              .where((v) => v.isChecked)
-                              .map<DropdownMenuItem<String>>(
-                                  (MemberViewModel item) {
-                            return DropdownMenuItem<String>(
-                              value: item.name,
-                              child: Text(item.name),
-                            );
-                          }).toList(),
-                        ));
-                      }),
+                      child: StatefulBuilder(
+                        builder: (context, setState) {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton<MemberViewModel>(
+                              value: _billingDetailsPv.paidMember,
+                              isDense: true,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              iconSize: 24,
+                              onChanged: (MemberViewModel value) {
+                                setState(() {});
+                                _billingDetailsPv.paidMember = value;
+                              },
+                              items: _memberListPv.memberList
+                                  .where((v) => v.isChecked)
+                                  .map<DropdownMenuItem<MemberViewModel>>(
+                                (MemberViewModel item) {
+                                  return DropdownMenuItem<MemberViewModel>(
+                                    value: item,
+                                    child: Text(item.name),
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          );
+                        },
+                      ),
                     );
-                  })),
+                  },
+                ),
+              ),
               Container(
                   margin: EdgeInsets.all(20),
                   child: FormField<String>(
@@ -158,7 +165,7 @@ class BillingDetailsStep extends HookWidget {
                           ),
                           onPressed: () {
                             if (_billingDetailsPv.amount > 0 &&
-                                _billingDetailsPv.paidPersonName != "") {
+                                _billingDetailsPv.paidMember != null) {
                               _billingDetailsPv.paidCategory =
                                   _paidCategoryList[index];
                               _billingDetailsListPv.add(_billingDetailsPv);

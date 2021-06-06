@@ -41,7 +41,7 @@ class BillingDetailsCard extends HookWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 20, bottom: 4),
                     child: Text(
-                      billingDetails.paidPersonName,
+                      billingDetails.paidMember.name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),

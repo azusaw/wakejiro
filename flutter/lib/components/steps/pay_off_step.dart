@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_sample/models/payment.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
+import 'package:flutter_sample/view_models/billing_details_view_model.dart';
 import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +21,7 @@ final paymentListProvider =
 
 class PayOffStep extends HookWidget {
   PayOffStep({this.back, this.next});
+
   final Function back;
   final Function next;
 
@@ -42,7 +47,11 @@ class PayOffStep extends HookWidget {
 
     void setListDefaultValue() {
       _paymentListPv.deleteAll();
-      _paymentList.forEach((element) {
+      final list = _createPaymentList(
+          _billingDetailsListPv,
+          (_billingDetailsListPv.calcTotal() / _billingDetailsListPv.size())
+              .round());
+      list.forEach((element) {
         _paymentListPv.add(element);
       });
     }
@@ -85,5 +94,39 @@ class PayOffStep extends HookWidget {
             disabled: false,
           )
         ]);
+  }
+
+  List<Payment> _createPaymentList(
+      BillingDetailsListViewModel billingDetailsListPv, int average) {
+    // 各メンバーについて1人当たり金額との差額を算出
+    final memberToSum = billingDetailsListPv.billingDetailsList
+        .groupFoldBy<Member, int>((e) => e.paidMember,
+            (previous, element) => (previous ?? -average) + element.amount);
+    final payers = memberToSum.entries
+        .toList()
+        .where((element) => element.value < 0)
+        .sorted((a, b) => b.value - a.value);
+    final payees = memberToSum.entries
+        .toList()
+        .where((element) => element.value > 0)
+        .sorted((a, b) => a.value - b.value);
+
+    // 支払額の多い人、受け取り額の多い人を優先して支払い処理
+    final payment = <Payment>[];
+    while (payers.length > 0 && payees.length > 0) {
+      final payer = payers.last;
+      final payee = payees.last;
+      final amount = min(payer.value.abs(), payee.value.abs());
+      payment.add(Payment(
+          toMember: payee.key,
+          fromMember: payer.key,
+          amount: amount,
+          isDone: false));
+      payers.last = MapEntry(payer.key, payer.value + amount);
+      payees.last = MapEntry(payee.key, payee.value - amount);
+      if (payers.last.value == 0) payers.removeLast();
+      if (payees.last.value == 0) payees.removeLast();
+    }
+    return payment;
   }
 }

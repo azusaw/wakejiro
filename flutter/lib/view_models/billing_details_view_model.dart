@@ -3,7 +3,7 @@ import 'package:flutter_sample/models/billing_details.dart';
 
 class BillingDetailsViewModel extends BillingDetails with ChangeNotifier {
   BillingDetailsViewModel()
-      : super(paidPersonName: "", paidCategory: null, amount: 0);
+      : super(paidMember: null, paidCategory: null, amount: 0);
 }
 
 class BillingDetailsListViewModel with ChangeNotifier {
@@ -26,4 +26,6 @@ class BillingDetailsListViewModel with ChangeNotifier {
 
   int calcTotal() => billingDetailsList.fold<int>(
       0, (total, element) => total + element.amount);
+
+  int size() => billingDetailsList.length;
 }
