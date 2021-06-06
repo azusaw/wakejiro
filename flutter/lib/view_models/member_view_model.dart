@@ -48,18 +48,6 @@ class MemberListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> refresh() async {
-    this.memberList = [];
-    await database
-        .findAllMembers()
-        .then((v) => v.forEach((member) => this
-            .memberList
-            .add(MemberViewModel(name: member.name, isNew: false))))
-        .then((v) {
-      notifyListeners();
-    });
-  }
-
   Future<void> refreshByEventId(int eventId) async {
     this.memberList = [];
     await database.findAllMembers().then((v) {
