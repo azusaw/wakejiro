@@ -29,6 +29,7 @@ class MemberListViewModel with ChangeNotifier {
 
   void add(String name, bool isNew) {
     this.memberList.add(MemberViewModel(name: name, isNew: isNew));
+    changeChecked(this.memberList.length - 1, true);
     notifyListeners();
   }
 
