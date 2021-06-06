@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/pay_off_card.dart';
+import 'package:flutter_sample/components/steps/event_info_step.dart';
 import 'package:flutter_sample/models/member.dart';
 import 'package:flutter_sample/models/payment.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
+import 'package:flutter_sample/view_models/participant_view_model.dart';
 import 'package:flutter_sample/view_models/payment_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +31,7 @@ class PayOffStep extends HookWidget {
   Widget build(BuildContext context) {
     final _eventPv = useProvider(eventProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
+    final _participantListPv = useProvider(participantListProvider);
     final _paymentListPv = useProvider(paymentListProvider);
 
     // サンプルデータ
@@ -49,7 +52,8 @@ class PayOffStep extends HookWidget {
       _paymentListPv.deleteAll();
       final list = _createPaymentList(
           _billingDetailsListPv,
-          (_billingDetailsListPv.calcTotal() / _billingDetailsListPv.size())
+          _participantListPv,
+          (_billingDetailsListPv.calcTotal() / _participantListPv.size())
               .round());
       list.forEach((element) {
         _paymentListPv.add(element);
@@ -97,10 +101,12 @@ class PayOffStep extends HookWidget {
   }
 
   List<Payment> _createPaymentList(
-      BillingDetailsListViewModel billingDetailsListPv, int average) {
+      BillingDetailsListViewModel billingDetailsListPv,
+      ParticipantListViewModel participantListPv,
+      int average) {
     // 各メンバーについて1人当たり金額との差額を算出
     final memberToSum = billingDetailsListPv.billingDetailsList
-        .groupFoldBy<Member, int>((e) => e.paidMember,
+        .groupFoldBy<int, int>((e) => e.paidMember.id,
             (previous, element) => (previous ?? -average) + element.amount);
     final payers = memberToSum.entries
         .toList()
@@ -118,8 +124,10 @@ class PayOffStep extends HookWidget {
       final payee = payees.last;
       final amount = min(payer.value.abs(), payee.value.abs());
       payment.add(Payment(
-          toMember: payee.key,
-          fromMember: payer.key,
+          toMember: participantListPv.participantList
+              .firstWhere((element) => element.id == payee.key),
+          fromMember: participantListPv.participantList
+              .firstWhere((element) => element.id == payer.key),
           amount: amount,
           isDone: false));
       payers.last = MapEntry(payer.key, payer.value + amount);

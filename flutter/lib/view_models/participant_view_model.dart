@@ -21,4 +21,6 @@ class ParticipantListViewModel with ChangeNotifier {
     this.participantList = await database.findAllParticipantByEventId(eventId);
     notifyListeners();
   }
+
+  int size() => participantList.length;
 }
