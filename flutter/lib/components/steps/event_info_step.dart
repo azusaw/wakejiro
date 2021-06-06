@@ -161,10 +161,10 @@ class EventInfoStep extends HookWidget {
             next: () async {
               _eventPv.id != null
                   ? await database.updateEvent(_eventPv)
-                  : await database.insertEvent(_eventPv);
+                  : _eventPv.id = await database.insertEvent(_eventPv);
               _memberListPv.memberList.asMap().forEach((index, member) async {
                 if (member.isNew) {
-                  await database.insertMember(member);
+                  member.id = await database.insertMember(member);
                   _memberListPv.changeIsNew(index, false);
                 }
               });
