@@ -6,9 +6,10 @@ import 'package:flutter_sample/models/member.dart';
 
 class MemberViewModel extends Member with ChangeNotifier {
   MemberViewModel({
+    id,
     @required name,
     @required this.isNew,
-  }) : super(name: name);
+  }) : super(id: id, name: name);
 
   bool isNew;
   var isChecked = false;
@@ -60,18 +61,19 @@ class MemberListViewModel with ChangeNotifier {
 
   Future<void> refreshByEventId(int eventId) async {
     this.memberList = [];
-    await database.findAllMembers().then((v) => v.forEach((member) {
-          this.memberList.add(MemberViewModel(name: member.name, isNew: false));
-        }));
+    await database.findAllMembers().then((v) {
+      v.forEach((member) {
+        this.memberList.add(
+            MemberViewModel(id: member.id, name: member.name, isNew: false));
+      });
+    });
     await database
         .findAllParticipantByEventId(eventId)
-        .then((v) => v.forEach((member) {
-              print(member);
+        .then((v) => v.forEach((participant) {
               this.changeChecked(
-                  this.memberList.indexWhere((v) => v.name == member.name),
+                  this.memberList.indexWhere((v) => v.name == participant.name),
                   true);
             }));
-    print(this.memberList);
     notifyListeners();
   }
 }

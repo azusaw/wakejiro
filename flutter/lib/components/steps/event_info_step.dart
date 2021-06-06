@@ -7,12 +7,15 @@ import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
 import 'package:flutter_sample/view_models/member_view_model.dart';
+import 'package:flutter_sample/view_models/participant_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final memberProvider =
     ChangeNotifierProvider((ref) => MemberViewModel(name: "", isNew: true));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel());
+final participantListProvider =
+    ChangeNotifierProvider((ref) => ParticipantListViewModel());
 
 class EventInfoStep extends HookWidget {
   EventInfoStep({this.back, this.next});
@@ -24,6 +27,7 @@ class EventInfoStep extends HookWidget {
     final _eventPv = useProvider(eventProvider);
     final _memberPv = useProvider(memberProvider);
     final _memberListPv = useProvider(memberListProvider);
+    final _participantListPv = useProvider(participantListProvider);
     final _eventNameController =
         TextEditingController.fromValue(TextEditingValue(
       text: _eventPv.name,
@@ -36,7 +40,9 @@ class EventInfoStep extends HookWidget {
     ));
 
     useEffect(() {
-      _memberListPv.refreshByEventId(_eventPv.id);
+      if (_memberListPv.memberList.length == 0) {
+        _memberListPv.refreshByEventId(_eventPv.id);
+      }
       return;
     }, [_eventPv.id]);
 
@@ -165,7 +171,11 @@ class EventInfoStep extends HookWidget {
                   member.id = await database.insertMember(member);
                   _memberListPv.changeIsNew(index, false);
                 }
+                member.isChecked
+                    ? await database.insertParticipant(_eventPv.id, member.id)
+                    : print(member.name + " delete from participant");
               });
+              await _participantListPv.refreshByEventId(_eventPv.id);
               next();
             },
             disabled: _eventPv.name == "" ||

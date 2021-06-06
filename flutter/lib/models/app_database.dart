@@ -1,4 +1,5 @@
 import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/models/participant.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -72,12 +73,12 @@ class AppDatabase {
     return (await _database).delete('member', where: 'id=?', whereArgs: [id]);
   }
 
-  Future<List<Member>> findAllParticipantByEventId(int eventId) async {
+  Future<List<Participant>> findAllParticipantByEventId(int eventId) async {
     final query = [eventId.toString()];
     final list = await (await _database).rawQuery(
-        'SELECT member.id, member.name from participant inner join member on participant.member_id = member.id where participant.event_id=?;',
+        'SELECT participant.id, member.name FROM participant INNER JOIN member ON participant.member_id = member.id where participant.event_id=?;',
         query);
-    return list.map((m) => Member.of(m)).toList();
+    return list.map((m) => Participant.of(m)).toList();
   }
 
   Future<int> insertParticipant(int eventId, int memberId) async {
