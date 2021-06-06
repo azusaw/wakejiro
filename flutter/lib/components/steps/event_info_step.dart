@@ -41,11 +41,9 @@ class EventInfoStep extends HookWidget {
     ));
 
     useEffect(() {
-      if (_memberListPv.memberList.length == 0) {
-        _memberListPv.refreshByEventId(_eventPv.id);
-      }
+      _memberListPv.refreshByEventId(_eventPv.id);
       return;
-    }, [_eventPv.id]);
+    }, [_eventPv]);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
