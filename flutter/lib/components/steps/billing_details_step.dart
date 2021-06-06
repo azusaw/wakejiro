@@ -6,9 +6,9 @@ import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
 import 'package:flutter_sample/models/paid_category.dart';
+import 'package:flutter_sample/models/participant.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
-import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -34,22 +34,22 @@ class BillingDetailsStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _memberListPv = useProvider(memberListProvider);
+    final _participantListPv = useProvider(participantListProvider);
     final _billingDetailsPv = useProvider(billingDetailsProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     void setDefaultValue() {
-      _billingDetailsPv.paidMember = _memberListPv.memberList[0];
+      _billingDetailsPv.paidMember = _participantListPv.participantList[0];
       _billingDetailsPv.amount = 0;
       _billingDetailsPv.paidCategory = null;
     }
 
     useEffect(() {
       Future.microtask(() {
-        setDefaultValue();
+        if (_participantListPv.participantList.length > 0) setDefaultValue();
       });
       return;
-    }, [_memberListPv.memberList]);
+    }, [_participantListPv.participantList]);
 
     Widget _modalContent() {
       return Container(
@@ -81,20 +81,19 @@ class BillingDetailsStep extends HookWidget {
                       child: StatefulBuilder(
                         builder: (context, setState) {
                           return DropdownButtonHideUnderline(
-                            child: DropdownButton<MemberViewModel>(
+                            child: DropdownButton<Participant>(
                               value: _billingDetailsPv.paidMember,
                               isDense: true,
                               icon: const Icon(Icons.arrow_drop_down),
                               iconSize: 24,
-                              onChanged: (MemberViewModel value) {
+                              onChanged: (Participant value) {
                                 setState(() {});
                                 _billingDetailsPv.paidMember = value;
                               },
-                              items: _memberListPv.memberList
-                                  .where((v) => v.isChecked)
-                                  .map<DropdownMenuItem<MemberViewModel>>(
-                                (MemberViewModel item) {
-                                  return DropdownMenuItem<MemberViewModel>(
+                              items: _participantListPv.participantList
+                                  .map<DropdownMenuItem<Participant>>(
+                                (Participant item) {
+                                  return DropdownMenuItem<Participant>(
                                     value: item,
                                     child: Text(item.name),
                                   );
