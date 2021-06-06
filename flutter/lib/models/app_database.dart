@@ -94,6 +94,13 @@ class AppDatabase {
     await batch.commit(noResult: true);
   }
 
+  Future<bool> checkDeleteParticipant(int eventId, List<int> memberIds) async {
+    final result = await (await _database).rawQuery('SELECT EXISTS('
+        'SELECT * FROM participant '
+        'WHERE event_id=$eventId AND member_id NOT IN (${memberIds.join(',')}))');
+    return result.first.entries.first.value == 1;
+  }
+
   Future<List<BillingDetails>> findAllBillingDetails(int eventId) async {
     final list = await (await _database).rawQuery(
       'SELECT b.id, b.participant_id, m.name, b.category, b.amount FROM billing_detail AS b '
