@@ -33,7 +33,7 @@ class AppDatabase {
         await newDb.execute('CREATE TABLE IF NOT EXISTS member '
             '(id INTEGER PRIMARY KEY, name TEXT UNIQUE);');
         await newDb.execute('CREATE TABLE IF NOT EXISTS participant '
-            '(id INTEGER PRIMARY KEY, event_id INTEGER, member_id INTEGER);');
+            '(id INTEGER PRIMARY KEY, event_id INTEGER, member_id INTEGER, UNIQUE(event_id, member_id));');
         await newDb.execute('CREATE TABLE IF NOT EXISTS billing_detail '
             '(id INTEGER PRIMARY KEY, participant_id INTEGER, amount INTEGER, category INTEGER);');
         await newDb.execute('CREATE TABLE IF NOT EXISTS liquidation '
@@ -81,13 +81,15 @@ class AppDatabase {
     return list.map((m) => Participant.of(m)).toList();
   }
 
-  Future<int> insertParticipant(int eventId, int memberId) async {
-    return (await _database)
-        .insert('participant', {'event_id': eventId, 'member_id': memberId});
-  }
-
-  Future<int> deleteParticipant(int id) async {
-    return (await _database)
-        .delete('participant', where: 'id=?', whereArgs: [id]);
+  void replaceParticipant(int eventId, List<int> memberIds) async {
+    final batch = (await _database).batch();
+    memberIds.forEach((memberId) {
+      batch.insert('participant', {'event_id': eventId, 'member_id': memberId},
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+    });
+    batch.delete('participant',
+        where: 'event_id=? AND member_id NOT IN (${memberIds.join(',')})',
+        whereArgs: [eventId]);
+    await batch.commit(noResult: true);
   }
 }

@@ -19,6 +19,7 @@ final participantListProvider =
 
 class EventInfoStep extends HookWidget {
   EventInfoStep({this.back, this.next});
+
   final Function back;
   final Function next;
 
@@ -171,10 +172,13 @@ class EventInfoStep extends HookWidget {
                   member.id = await database.insertMember(member);
                   _memberListPv.changeIsNew(index, false);
                 }
-                member.isChecked
-                    ? await database.insertParticipant(_eventPv.id, member.id)
-                    : print(member.name + " delete from participant");
               });
+              database.replaceParticipant(
+                  _eventPv.id,
+                  _memberListPv.memberList
+                      .where((member) => member.isChecked)
+                      .map((e) => e.id)
+                      .toList());
               await _participantListPv.refreshByEventId(_eventPv.id);
               next();
             },

@@ -18,10 +18,7 @@ class ParticipantListViewModel with ChangeNotifier {
   }
 
   Future<void> refreshByEventId(int eventId) async {
-    this.participantList = [];
-    await database
-        .findAllParticipantByEventId(eventId)
-        .then((v) => this.participantList = v);
+    this.participantList = await database.findAllParticipantByEventId(eventId);
     notifyListeners();
   }
 }
