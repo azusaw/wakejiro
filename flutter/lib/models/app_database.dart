@@ -45,7 +45,8 @@ class AppDatabase {
 
   Future<List<Event>> findAllEvents() async {
     final list = await (await _database).query('event');
-    return list.map((m) => Event.of(m)).toList();
+    return list.map((m) => Event.of(m)).toList()
+      ..sort((v1, v2) => v2.date.compareTo(v1.date));
   }
 
   Future<int> insertEvent(Event event) async {
