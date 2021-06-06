@@ -1,3 +1,4 @@
+import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/models/event.dart';
 import 'package:flutter_sample/models/participant.dart';
 import 'package:path/path.dart';
@@ -74,10 +75,10 @@ class AppDatabase {
   }
 
   Future<List<Participant>> findAllParticipantByEventId(int eventId) async {
-    final query = [eventId.toString()];
     final list = await (await _database).rawQuery(
-        'SELECT participant.id, member.name FROM participant INNER JOIN member ON participant.member_id = member.id where participant.event_id=?;',
-        query);
+      'SELECT participant.id, member.name FROM participant '
+      'INNER JOIN member ON participant.member_id=member.id where participant.event_id=${eventId.toString()}',
+    );
     return list.map((m) => Participant.of(m)).toList();
   }
 
@@ -91,5 +92,24 @@ class AppDatabase {
         where: 'event_id=? AND member_id NOT IN (${memberIds.join(',')})',
         whereArgs: [eventId]);
     await batch.commit(noResult: true);
+  }
+
+  Future<List<BillingDetails>> findAllBillingDetails(int eventId) async {
+    final list = await (await _database).rawQuery(
+      'SELECT b.id, b.participant_id, m.name, b.category, b.amount FROM billing_detail AS b '
+      'JOIN participant AS p ON p.id=b.participant_id '
+      'JOIN member AS m ON m.id=p.member_id '
+      'WHERE p.event_id = ${eventId.toString()}',
+    );
+    return list.map((m) => BillingDetails.of(m)).toList();
+  }
+
+  Future<int> insertBillingDetails(BillingDetails billingDetails) async {
+    return (await _database).insert('billing_detail', billingDetails.toMap());
+  }
+
+  Future<int> deleteBillingDetails(int id) async {
+    return (await _database)
+        .delete('billing_detail', where: 'id=?', whereArgs: [id]);
   }
 }

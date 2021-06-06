@@ -5,9 +5,11 @@ import 'package:flutter_sample/common/paid_category.dart';
 import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/buttons/step_control_buttons.dart';
 import 'package:flutter_sample/components/cards/billing_details_card.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/paid_category.dart';
 import 'package:flutter_sample/models/participant.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
+import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/view_models/billing_details_view_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,14 +36,16 @@ class BillingDetailsStep extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _eventPv = useProvider(eventProvider);
     final _participantListPv = useProvider(participantListProvider);
     final _billingDetailsPv = useProvider(billingDetailsProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
-    void setDefaultValue() {
+    void setDefaultValue() async {
       _billingDetailsPv.paidMember = _participantListPv.participantList[0];
       _billingDetailsPv.amount = 0;
       _billingDetailsPv.paidCategory = null;
+      await _billingDetailsListPv.refresh(_eventPv.id);
     }
 
     useEffect(() {
@@ -162,12 +166,13 @@ class BillingDetailsStep extends HookWidget {
                               height: 80,
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             if (_billingDetailsPv.amount > 0 &&
                                 _billingDetailsPv.paidMember != null) {
                               _billingDetailsPv.paidCategory =
                                   _paidCategoryList[index];
-                              _billingDetailsListPv.add(_billingDetailsPv);
+                              await database
+                                  .insertBillingDetails(_billingDetailsPv);
                               setDefaultValue();
                               Navigator.of(context).pop();
                             }

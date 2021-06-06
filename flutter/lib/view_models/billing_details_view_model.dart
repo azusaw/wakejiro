@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 
 class BillingDetailsViewModel extends BillingDetails with ChangeNotifier {
@@ -19,8 +20,8 @@ class BillingDetailsListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteAll() {
-    billingDetailsList = [];
+  Future<void> refresh(int eventId) async {
+    this.billingDetailsList = await database.findAllBillingDetails(eventId);
     notifyListeners();
   }
 

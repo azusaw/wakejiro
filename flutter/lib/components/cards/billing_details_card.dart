@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample/common/paid_category.dart';
+import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/billing_details.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
+import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +17,7 @@ class BillingDetailsCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _eventPv = useProvider(eventProvider);
     final _billingDetailsListPv = useProvider(billingDetailsListProvider);
 
     return Card(
@@ -62,8 +65,9 @@ class BillingDetailsCard extends HookWidget {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   color: Colors.grey,
-                  onPressed: () {
-                    _billingDetailsListPv.delete(index);
+                  onPressed: () async {
+                    await database.deleteBillingDetails(billingDetails.id);
+                    await _billingDetailsListPv.refresh(_eventPv.id);
                   },
                 ),
               ],
