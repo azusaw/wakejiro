@@ -26,6 +26,7 @@ class EventViewModel extends Event with ChangeNotifier {
 
   void setDate(DateTime date) {
     this.date = date;
+    notifyListeners();
   }
 
   void setLiquidated(bool liquidated) {
