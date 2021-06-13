@@ -31,16 +31,14 @@ class HomeScreen extends HookWidget {
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(20),
-          child: Column(children: [
-            Column(
-              children: List.generate(_eventListPv.eventList.length, (index) {
-                return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: EventCard(_eventListPv.eventList[index]));
-              }),
-            ),
-          ]),
+          margin: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 100),
+          child: ListView(
+            children: List.generate(_eventListPv.eventList.length, (index) {
+              return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: EventCard(_eventListPv.eventList[index]));
+            }),
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

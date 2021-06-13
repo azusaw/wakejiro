@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_sample/models/app_database.dart';
 import 'package:flutter_sample/models/event.dart';
+import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/screens/home_screen.dart';
 import 'package:flutter_sample/util/date_formatter.dart';
-import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class EventCard extends HookWidget {
@@ -15,7 +14,6 @@ class EventCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _eventPv = useProvider(eventProvider);
-    final _eventListPv = useProvider(eventListProvider);
 
     return Card(
       elevation: 8,
