@@ -11,7 +11,6 @@ class EventViewModel extends Event with ChangeNotifier {
     this.name = "";
     this.date = DateTime.now();
     liquidated = false;
-    notifyListeners();
   }
 
   void setEvent(Event event) {
@@ -19,22 +18,18 @@ class EventViewModel extends Event with ChangeNotifier {
     this.name = event.name;
     this.date = event.date;
     this.liquidated = event.liquidated;
-    notifyListeners();
   }
 
   void setName(String name) {
     this.name = name;
-    notifyListeners();
   }
 
   void setDate(DateTime date) {
     this.date = date;
-    notifyListeners();
   }
 
   void setLiquidated(bool liquidated) {
     this.liquidated = liquidated;
-    notifyListeners();
   }
 }
 
