@@ -4,6 +4,7 @@ import 'package:flutter_sample/common/theme_color.dart';
 import 'package:flutter_sample/components/cards/event_card.dart';
 import 'package:flutter_sample/screens/create_event_screen.dart';
 import 'package:flutter_sample/view_models/event_view_model.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final eventProvider = ChangeNotifierProvider((ref) => EventViewModel());
@@ -25,9 +26,16 @@ class HomeScreen extends HookWidget {
     return Scaffold(
       backgroundColor: ThemeColor.base,
       appBar: AppBar(
+        title: Center(
+          child: SvgPicture.asset(
+            'assets/logo.svg',
+            width: 250,
+            height: 100,
+          ),
+        ),
         backgroundColor: ThemeColor.primary,
         automaticallyImplyLeading: false,
-        elevation: 0,
+        elevation: 8,
       ),
       body: Center(
         child: Container(
