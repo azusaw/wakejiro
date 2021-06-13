@@ -105,9 +105,14 @@ class PayOffStep extends HookWidget {
       ParticipantListViewModel participantListPv,
       int average) {
     // 各メンバーについて1人当たり金額との差額を算出
-    final memberToSum = billingDetailsListPv.billingDetailsList
-        .groupFoldBy<int, int>((e) => e.paidMember.id,
-            (previous, element) => (previous ?? -average) + element.amount);
+    final memberToSum = Map.fromEntries(participantListPv.participantList.map(
+        (participant) => MapEntry(
+            participant.id,
+            billingDetailsListPv.billingDetailsList
+                    .where((bill) => bill.paidMember.id == participant.id)
+                    .map((bill) => bill.amount)
+                    .sum -
+                average)));
     final payers = memberToSum.entries
         .toList()
         .where((element) => element.value < 0)
