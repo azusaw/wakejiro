@@ -46,34 +46,34 @@ class EventCard extends HookWidget {
                         ));
                   },
                 ),
-                IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      showDialog<int>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('イベントの削除'),
-                              content: Text(
-                                  '${dateFormat(event.date)} の ${event.name} イベントを削除してよろしいですか？'),
-                              actions: <Widget>[
-                                ElevatedButton(
-                                  child: Text('Cancel'),
-                                  onPressed: () => Navigator.of(context).pop(0),
-                                ),
-                                ElevatedButton(
-                                  child: Text('OK'),
-                                  onPressed: () async {
-                                    await database.deleteEvent(event.id);
-                                    _eventListPv.refresh();
-                                    Navigator.of(context).pop(0);
-                                  },
-                                ),
-                              ],
-                            );
-                          });
-                    }),
+                // IconButton(
+                //     icon: Icon(Icons.delete),
+                //     onPressed: () {
+                //       showDialog<int>(
+                //           context: context,
+                //           barrierDismissible: false,
+                //           builder: (BuildContext context) {
+                //             return AlertDialog(
+                //               title: Text('イベントの削除'),
+                //               content: Text(
+                //                   '${dateFormat(event.date)} の ${event.name} イベントを削除してよろしいですか？'),
+                //               actions: <Widget>[
+                //                 ElevatedButton(
+                //                   child: Text('Cancel'),
+                //                   onPressed: () => Navigator.of(context).pop(0),
+                //                 ),
+                //                 ElevatedButton(
+                //                   child: Text('OK'),
+                //                   onPressed: () async {
+                //                     await database.deleteEvent(event.id);
+                //                     _eventListPv.refresh();
+                //                     Navigator.of(context).pop(0);
+                //                   },
+                //                 ),
+                //               ],
+                //             );
+                //           });
+                //     }),
                 const SizedBox(width: 8),
               ],
             ),
