@@ -8,29 +8,21 @@ class MemberViewModel extends Member with ChangeNotifier {
   MemberViewModel({
     id,
     @required name,
-    @required this.isNew,
     @required this.isChecked,
   }) : super(id: id, name: name);
 
-  bool isNew;
   bool isChecked;
 
   void setName(String name) {
     this.name = name;
-  }
-
-  void setIsNew(bool isNew) {
-    this.isNew = isNew;
   }
 }
 
 class MemberListViewModel with ChangeNotifier {
   List<MemberViewModel> memberList = [];
 
-  void add(String name, bool isNew, bool isChecked) {
-    this
-        .memberList
-        .add(MemberViewModel(name: name, isNew: isNew, isChecked: isChecked));
+  void add(String name, bool isChecked) {
+    this.memberList.add(MemberViewModel(name: name, isChecked: isChecked));
     notifyListeners();
   }
 
@@ -44,17 +36,12 @@ class MemberListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeIsNew(int index, bool isNew) {
-    this.memberList[index].isNew = isNew;
-    notifyListeners();
-  }
-
   Future<void> refreshByEventId(int eventId) async {
     this.memberList = [];
     await database.findAllMembers().then((v) {
       v.forEach((member) {
         this.memberList.add(MemberViewModel(
-            id: member.id, name: member.name, isNew: false, isChecked: false));
+            id: member.id, name: member.name, isChecked: false));
       });
     });
     await database

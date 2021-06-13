@@ -11,7 +11,7 @@ import 'package:flutter_sample/view_models/participant_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final memberProvider = ChangeNotifierProvider(
-    (ref) => MemberViewModel(name: "", isNew: true, isChecked: false));
+    (ref) => MemberViewModel(name: "", isChecked: false));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel());
 final participantListProvider =
@@ -104,7 +104,7 @@ class EventInfoStep extends HookWidget {
                           _memberListPv.memberList[index].name,
                         ),
                       ),
-                      if (_memberListPv.memberList[index].isNew)
+                      if (_memberListPv.memberList[index].id == null)
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -150,7 +150,7 @@ class EventInfoStep extends HookWidget {
                   if (_memberPv.name.trim().isNotEmpty &&
                       _memberListPv.memberList.every(
                           (member) => member.name != _memberPv.name.trim())) {
-                    _memberListPv.add(_memberPv.name, true, true);
+                    _memberListPv.add(_memberPv.name, true);
                     print(_memberListPv.memberList);
                     _memberPv.setName("");
                     FocusScope.of(context).unfocus();
@@ -167,7 +167,7 @@ class EventInfoStep extends HookWidget {
                   ? await database.updateEvent(_eventPv)
                   : _eventPv.id = await database.insertEvent(_eventPv);
               for (var member in _memberListPv.memberList) {
-                if (member.isNew) {
+                if (member.id == null) {
                   member.id = await database.insertMember(member);
                 }
               }
