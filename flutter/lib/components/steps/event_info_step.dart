@@ -10,8 +10,8 @@ import 'package:flutter_sample/view_models/member_view_model.dart';
 import 'package:flutter_sample/view_models/participant_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final memberProvider =
-    ChangeNotifierProvider((ref) => MemberViewModel(name: "", isNew: true));
+final memberProvider = ChangeNotifierProvider(
+    (ref) => MemberViewModel(name: "", isNew: true, isChecked: false));
 final memberListProvider =
     ChangeNotifierProvider((ref) => MemberListViewModel());
 final participantListProvider =
@@ -150,7 +150,8 @@ class EventInfoStep extends HookWidget {
                   if (_memberPv.name.trim().isNotEmpty &&
                       _memberListPv.memberList.every(
                           (member) => member.name != _memberPv.name.trim())) {
-                    _memberListPv.add(_memberPv.name, true);
+                    _memberListPv.add(_memberPv.name, true, true);
+                    print(_memberListPv.memberList);
                     _memberPv.setName("");
                     FocusScope.of(context).unfocus();
                   }
@@ -165,12 +166,11 @@ class EventInfoStep extends HookWidget {
               _eventPv.id != null
                   ? await database.updateEvent(_eventPv)
                   : _eventPv.id = await database.insertEvent(_eventPv);
-              _memberListPv.memberList.asMap().forEach((index, member) async {
+              for (var member in _memberListPv.memberList) {
                 if (member.isNew) {
                   member.id = await database.insertMember(member);
-                  _memberListPv.changeIsNew(index, false);
                 }
-              });
+              }
               final eventId = _eventPv.id;
               final participantIds = _memberListPv.memberList
                   .where((member) => member.isChecked)
