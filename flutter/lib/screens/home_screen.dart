@@ -75,10 +75,10 @@ class HomeScreen extends HookWidget {
                       'イベントを作成する ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 20.0,
                           letterSpacing: 2),
                     ),
-                    Icon(Icons.add),
+                    Icon(Icons.add, size: 32.0),
                   ]),
                 ]),
           ),

@@ -20,7 +20,7 @@ class PaymentCard extends HookWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: EdgeInsets.all(20),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

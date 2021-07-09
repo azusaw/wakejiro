@@ -86,7 +86,7 @@ class PayOffStep extends HookWidget {
             itemCount: _paymentListPv.paymentList.length,
             itemBuilder: (context, index) {
               return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: PaymentCard(index));
             },
             scrollDirection: Axis.vertical,
