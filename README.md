@@ -3,7 +3,7 @@
 A new Flutter application.
 
 ## Build
-```
+```bash
 # Create icons by flutter_launcher_icons
 $ flutter pub pub run flutter_launcher_icons:main
 
