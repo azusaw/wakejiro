@@ -85,9 +85,8 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
+# flutter pub run flutter_launcher_icons:main
 flutter_icons:
   ios: true
   android: true
   image_path: "assets/icon/icon.png"
-  adaptive_icon_background: "assets/icon/back.png"
-  adaptive_icon_foreground: "assets/icon/front.png"
