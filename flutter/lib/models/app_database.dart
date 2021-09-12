@@ -58,8 +58,13 @@ class AppDatabase {
         .update('event', event.toMap(), where: 'id=?', whereArgs: [event.id]);
   }
 
-  Future<int> deleteEvent(int id) async {
-    return (await _database).delete('event', where: 'id=?', whereArgs: [id]);
+  deleteEvent(int eventId) async {
+    await (await _database).transaction((txn) async {
+      txn.rawDelete('DELETE FROM billing_detail WHERE participant_id IN '
+          '(SELECT id FROM participant WHERE event_id = ?)', [eventId]);
+      txn.delete('participant', where: 'event_id=?', whereArgs: [eventId]);
+      txn.delete('event', where: 'id=?', whereArgs: [eventId]);
+    });
   }
 
   Future<List<Member>> findAllMembers() async {
