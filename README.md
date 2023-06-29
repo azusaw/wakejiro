@@ -1,6 +1,6 @@
-# flutter_practice
+# wakejiro 🐱
 
-A new Flutter application.
+Practice of Flutter application.
 
 ## Build
 ```bash
